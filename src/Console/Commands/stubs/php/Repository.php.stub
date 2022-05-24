@@ -1,0 +1,47 @@
+<?php
+
+namespace {{ namespace }};
+
+use Alangiacomin\LaravelBasePack\Repositories\Repository;
+use {{ modelNamespace }}\{{ model }};
+use Illuminate\Support\Facades\DB;
+
+class {{ model }}Repository extends Repository implements I{{ model }}Repository
+{
+    public function create(...$params): {{ model }}
+    {
+        ${{ modelVar }} = new {{ model }};
+
+        $this->paramsToModel(${{ modelVar }}, ...$params);
+
+        ${{ modelVar }}->save();
+
+        return ${{ modelVar }};
+    }
+
+    public function update({{ model }} ${{ modelVar }}, ...$params): {{ model }}
+    {
+        $this->paramsToModel(${{ modelVar }}, ...$params);
+
+        ${{ modelVar }}->save();
+
+        return ${{ modelVar }};
+    }
+
+    public function delete({{ model }} ${{ modelVar }})
+    {
+        DB::transaction(function () use (${{ modelVar }}) {
+            $a = ${{ modelVar }}->delete();
+            if ($a)
+            {
+                ${{ modelVar }}->deleted_by = "myuser";
+                ${{ modelVar }}->save();
+            }
+        });
+    }
+
+    public function list()
+    {
+        return {{ model }}::get();
+    }
+}

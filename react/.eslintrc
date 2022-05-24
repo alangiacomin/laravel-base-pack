@@ -1,0 +1,78 @@
+{
+    "env": {
+        "amd": true,
+        "browser": true,
+        "es6": true,
+        "jquery": true,
+        "node": true,
+        "worker": true
+    },
+    "extends": [
+        "eslint:recommended",
+        "plugin:react/recommended",
+        "airbnb",
+        "react-app"
+    ],
+    "parser": "@babel/eslint-parser",
+    "plugins": [
+        "babel",
+        "react",
+        "react-hooks"
+    ],
+    "rules": {
+        "indent": [
+            "error",
+            2,
+            {
+                "SwitchCase": 1
+            }
+        ],
+        "linebreak-style": "off",
+        "react/jsx-one-expression-per-line": "off",
+        "react/jsx-fragments": "off",
+        "react/jsx-props-no-spreading": "off",
+        "max-len": [
+            2,
+            {
+                "code": 160,
+                "tabWidth": 2,
+                "ignoreUrls": true
+            }
+        ],
+        "react-hooks/rules-of-hooks": "error",
+        "react-hooks/exhaustive-deps": "warn",
+        "react/function-component-definition": [
+            2,
+            {
+                "namedComponents": "arrow-function"
+                //"unnamedComponents": "function-expression" | "arrow-function" | Array<"function-expression" | "arrow-function">
+            }
+        ],
+        "import/no-extraneous-dependencies": [
+            "error",
+            {
+                "devDependencies": true
+            }
+        ],
+        "no-unused-expressions": [
+            "error",
+            {
+                "allowShortCircuit": true
+            }
+        ],
+        "no-plusplus": [
+            "error",
+            {
+                "allowForLoopAfterthoughts": true
+            }
+        ],
+        "no-multiple-empty-lines": [
+            "error"
+        ],
+        "import/extensions": "off",
+        // new react 17,
+        "react/jsx-uses-react": "off",
+        // new react 17,
+        "react/react-in-jsx-scope": "off"
+    }
+}

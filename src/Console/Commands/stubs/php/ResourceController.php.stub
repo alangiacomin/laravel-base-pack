@@ -1,0 +1,121 @@
+<?php
+
+namespace {{ namespace }};
+
+use Alangiacomin\LaravelBasePack\Controllers\Controller;
+use Alangiacomin\LaravelBasePack\Exceptions\NotImplementedException;
+use {{ modelNamespace }}\{{ name }};
+use {{ repositoryNamespace }}\I{{ name }}Repository;
+use Exception;
+use Illuminate\Http\Request;
+
+class {{ name }}Controller extends Controller
+{
+    /**
+     * Methods requiring acl permission
+     *
+     * @var array|string[]
+     */
+    public array $restrictedMethods = [
+        'index',
+        'create',
+        'store',
+        'show',
+        'edit',
+        'update',
+        'destroy',
+    ];
+
+    /**
+     * Methods returning a json response
+     *
+     * @var array|string[]
+     */
+    public array $jsonResponse = [
+        'index',
+        'create',
+        'store',
+        'show',
+        'edit',
+        'update',
+        'destroy',
+    ];
+
+    /**
+     * Constructor
+     */
+    public function __construct(public I{{ name }}Repository ${{ nameVar }}Repository)
+    {
+        parent::__construct();
+    }
+
+    /**
+     * Display a listing of the resource
+     */
+    public function index()
+    {
+        return $this->{{ nameVar }}Repository->list();
+    }
+
+    /**
+     * Show the form for creating a new resource
+     */
+    public function create()
+    {
+        throw new NotImplementedException();
+    }
+
+    /**
+     * Store a newly created resource in storage
+     *
+     * @param  Request  $request
+     * @return mixed
+     */
+    public function store(Request $request): mixed
+    {
+        return $this->execute(new MyCommand([
+            'var' => $request->input('var'),
+        ]));
+    }
+
+    /**
+     * Display the specified resource
+     *
+     * @param  {{ name }}  ${{ nameVar }}
+     */
+    public function show({{ name }} ${{ nameVar }})
+    {
+        throw new NotImplementedException();
+    }
+
+    /**
+     * Show the form for editing the specified resource
+     *
+     * @param  {{ name }}  ${{ nameVar }}
+     */
+    public function edit({{ name }} ${{ nameVar }})
+    {
+        throw new NotImplementedException();
+    }
+
+    /**
+     * Update the specified resource in storage
+     *
+     * @param  Request  $request
+     * @param  {{ name }}  ${{ nameVar }}
+     */
+    public function update(Request $request, {{ name }} ${{ nameVar }})
+    {
+        throw new NotImplementedException();
+    }
+
+    /**
+     * Remove the specified resource from storage
+     *
+     * @param  {{ name }}  ${{ nameVar }}
+     */
+    public function destroy({{ name }} ${{ nameVar }})
+    {
+        throw new NotImplementedException();
+    }
+}

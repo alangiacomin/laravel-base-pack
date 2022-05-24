@@ -1,0 +1,7 @@
+<?php
+
+return [
+    'openapi-file' => 'http://localhost:8999/openapi',
+    'namespace' => 'App\Services\Logger',
+    'directory' => './app/Services/Logger',
+];

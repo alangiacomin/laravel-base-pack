@@ -1,0 +1,39 @@
+<?php
+
+namespace {{ namespace }};
+
+use Alangiacomin\LaravelBasePack\Repositories\IRepository;
+use {{ modelNamespace }}\{{ model }};
+
+interface I{{ model }}Repository extends IRepository
+{
+    /**
+     * Create new element
+     *
+     * @param $params
+     * @return {{ model }}
+     */
+    function create(...$params): {{ model }};
+
+    /**
+     * Update element
+     *
+     * @param {{ model }} ${{ modelVar }}
+     * @param mixed $params
+     * @return {{ model }}
+     */
+    function update({{ model }} ${{ modelVar }}, ...$params): {{ model }};
+
+    /**
+     * Delete element
+     *
+     * @param {{ model }} ${{ modelVar }}
+     * @return void
+     */
+    function delete({{ model }} ${{ modelVar }});
+
+    /**
+     * List elements
+     */
+    function list();
+}

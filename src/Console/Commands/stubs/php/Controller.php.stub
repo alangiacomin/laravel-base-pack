@@ -1,0 +1,59 @@
+<?php
+
+namespace {{ namespace }};
+
+use Alangiacomin\LaravelBasePack\Controllers\Controller;
+use Illuminate\Http\Request;
+
+class {{ name }}Controller extends Controller
+{
+    /**
+     * Methods requiring acl permission
+     *
+     * @var array|string[]
+     */
+    public array $restrictedMethods = [
+        'index',
+        'create',
+        'store',
+        'show',
+        'edit',
+        'update',
+        'destroy',
+    ];
+
+    /**
+     * Methods returning a json response
+     *
+     * @var array|string[]
+     */
+    public array $jsonResponse = [
+        'index',
+        'create',
+        'store',
+        'show',
+        'edit',
+        'update',
+        'destroy',
+    ];
+
+    /**
+     * Constructor
+     */
+    public function __construct(public IObject $object)
+    {
+        parent::__construct();
+    }
+
+    /**
+     * Method
+     *
+     * @param  Request  $request
+     */
+    public function method(Request $request)
+    {
+        return $this->execute(new MyCommand([
+            'var' => $var,
+        ]));
+    }
+}

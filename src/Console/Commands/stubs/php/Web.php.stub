@@ -1,0 +1,11 @@
+Route::controller(\App\Http\Controllers\AuthController::class)
+    ->prefix('auth')
+    ->group(function () {
+        Route::get('profile', 'profile');
+        Route::post('login', 'login');
+        Route::post('logout', 'logout');
+    });
+
+Route::fallback(function () {
+    return view('welcome');
+});

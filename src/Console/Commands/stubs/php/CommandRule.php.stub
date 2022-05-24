@@ -1,0 +1,19 @@
+<?php
+
+namespace {{ handlerNamespace }};
+
+use {{ commandNamespace }}\{{ command }};
+use Exception;
+
+class {{ command }}Rule
+{
+    /**
+     * Evaluate if command can be executed
+     *
+     * @throws Exception
+     */
+    public function evaluate({{ command }} $command)
+    {
+        throw new Exception("Rule exception");
+    }
+}

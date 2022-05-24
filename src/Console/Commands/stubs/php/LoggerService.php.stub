@@ -1,0 +1,91 @@
+<?php
+
+namespace App\Services;
+
+use Alangiacomin\LaravelBasePack\Bus\IBusObject;
+use Alangiacomin\LaravelBasePack\Commands\ICommand;
+use Alangiacomin\LaravelBasePack\Core\Enums\LogType;
+use Alangiacomin\LaravelBasePack\Events\IEvent;
+use Alangiacomin\LaravelBasePack\Services\ILoggerService;
+use Alangiacomin\LaravelBasePack\Services\LoggerHttpClient;
+use App\Services\Logger\Client;
+use App\Services\Logger\Model\Log;
+use Exception;
+use Throwable;
+
+class LoggerService implements ILoggerService
+{
+    private Client $apiClient;
+
+    public function __construct()
+    {
+        $this->apiClient = Client::create((new LoggerHttpClient())->Psr18());
+    }
+
+    /**
+     * @throws Exception
+     */
+    function sent(IBusObject $obj)
+    {
+        $this->apiClient->postApiV1Log($this->logObject($obj)->setType(
+            match ($this->busObjectType($obj))
+            {
+                ICommand::class => LogType::CommandSent->value,
+                IEvent::class => LogType::EventSent->value,
+                default => throw new Exception("Object not valid"),
+            }));
+    }
+
+    /**
+     * @throws Exception
+     */
+    function received(IBusObject $obj)
+    {
+        $this->apiClient->postApiV1Log($this->logObject($obj)->setType(
+            match ($this->busObjectType($obj))
+            {
+                ICommand::class => LogType::CommandReceived->value,
+                IEvent::class => LogType::EventReceived->value,
+                default => throw new Exception("Object not valid"),
+            }));
+    }
+
+    /**
+     * @throws Exception
+     */
+    function exception(IBusObject $obj, Throwable $ex)
+    {
+        $this->apiClient->postApiV1Log($this->logObject($obj)
+            ->setType(LogType::Exception->value)
+            ->setPayload($ex->getMessage()));
+    }
+
+    private function logObject(IBusObject $obj)
+    {
+        return (new Log())
+            ->setCorrelationId($obj->correlationId)
+            ->setObjectId($obj->id)
+            ->setClass($obj->class())
+            ->setPayload($obj->payload());
+    }
+
+    /**
+     * @param  IBusObject  $obj
+     * @return string
+     */
+    private function busObjectType(IBusObject $obj): string
+    {
+        $types = [
+            ICommand::class,
+            IEvent::class
+        ];
+        foreach ($types as $type)
+        {
+            if (is_a($obj, $type))
+            {
+                return $type;
+            }
+        }
+        return '';
+    }
+}
