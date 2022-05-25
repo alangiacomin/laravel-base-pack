@@ -6,6 +6,7 @@ It provides:
 * CQRS and event sourcing
 * Repositories
 * Artisan commands
+* React frontend
 
 ## Requirements
 
@@ -14,19 +15,31 @@ It provides:
 
 ## Installation
 
-Install package
+Before installing package, database configuration must be set in ```.env``` file.
+
+### Install package
+
+Execute command
 ```
 composer require alangiacomin/laravel-base-pack
+php artisan basepack:install
 ```
 
-Publish configuration
+### Install React frontend
+
+Execute command
 ```
-php artisan vendor:publish --provider=Alangiacomin\LaravelBasePack\LaravelBasePackServiceProvider
+php artisan basepack:react
+npm run dev
 ```
 
-Update database tables 
+Edit ```routes/web.php```
+```php
+Route::fallback(function () {
+    return view('react');
+});
 ```
-php artisan migrate
-```
+
+## Create ...
 
 _... to be continued_
