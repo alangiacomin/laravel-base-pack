@@ -1,6 +1,6 @@
 import { useCallback, useState } from 'react';
+import { Button, Form } from '@alangiacomin/ui-components-react';
 import { postLogin } from '../../../apis/apiUser';
-import { Button, Form } from '../../../../../node_modules/@alangiacomin/ui-components-react';
 import Input from '../../../components/Input/Input';
 import useUser from '../../../hooks/useUser';
 
