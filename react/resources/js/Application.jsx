@@ -50,7 +50,7 @@ const Application = ({ userData }) => {
 
   useEffect(() => {
     // setAppLanguage();
-    console.log('app use effect');
+    // console.log('app use effect');
     // setUserData();
     // setTimeout(preloadAppLanguages, 1000);
   }, [setAppLanguage]);
