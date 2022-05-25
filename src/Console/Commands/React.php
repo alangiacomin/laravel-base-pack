@@ -5,6 +5,8 @@ namespace Alangiacomin\LaravelBasePack\Console\Commands;
 use Alangiacomin\LaravelBasePack\Console\Commands\Core\Command;
 use Alangiacomin\PhpUtils\DateTime;
 use Exception;
+use RecursiveDirectoryIterator;
+use function PHPUnit\Framework\directoryExists;
 
 /**
  * @method call(string $string)
@@ -35,7 +37,7 @@ class React extends Command
     {
         $this->dependencies();
         $this->publish();
-
+        $this->cleanup();
 
         $this->newLine();
     }
@@ -114,23 +116,49 @@ class React extends Command
         $this->newLine();
         $this->comment("Publish vendor files");
 
-        if (file_exists(base_path('.eslintrc')))
-        {
-            $date = DateTime::now('Ymd.His');
-            copy(base_path('.eslintrc'), base_path(".eslintrc.${date}.old"));
-            unlink(base_path('.eslintrc'));
-        }
 
-        if (file_exists(base_path('webpack.mix.js')))
+        $files = [
+            base_path('.eslintrc'),
+            base_path('webpack.mix.js')
+            ];
+        foreach ($files as $file)
         {
-            $date = DateTime::now('Ymd.His');
-            copy(base_path('webpack.mix.js'), base_path("webpack.mix.js.${date}.old"));
-            unlink(base_path('webpack.mix.js'));
+            if (file_exists($file) && !is_link($file))
+            {
+                $date = DateTime::now('Ymd.His');
+                copy($file, "${file}.${date}.old");
+                unlink($file);
+            }
         }
 
         $this->call("vendor:publish", [
             "--provider" => "Alangiacomin\LaravelBasePack\LaravelBasePackServiceProvider",
             "--tag" => "basepack-react",
         ]);
+    }
+
+    private function cleanup()
+    {
+        $this->newLine();
+        $this->comment("Cleanup Laravel default files");
+
+        $dir = resource_path('css');
+        if (is_dir($dir) &&!is_link($dir))
+        {
+            array_map('unlink', glob("$dir/*.*"));
+            rmdir($dir);
+        }
+
+        $files = [
+            resource_path('js/app.js'),
+            resource_path('js/bootstrap.js'),
+        ];
+        foreach ($files as $file)
+        {
+            if (file_exists($file) && !is_link($file))
+            {
+                unlink($file);
+            }
+        }
     }
 }
