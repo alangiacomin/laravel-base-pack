@@ -49,7 +49,7 @@ class React extends Command
 
         $deps = [
             '@alangiacomin/js-utils' => '^2.0.3',
-            '@alangiacomin/ui-components-react' => '^0.0.1',
+            '@alangiacomin/ui-components-react' => '~0.0.1',
             '@reduxjs/toolkit' => '^1.8.1',
             'axios' => '^0.27.2',
             'bootstrap' => '^5.1.3',
