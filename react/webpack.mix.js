@@ -24,7 +24,7 @@ mix.webpackConfig({
   },
   resolve: {
     alias: {
-      react: path.resolve('./node_modules/react'),
+      'react': path.resolve(__dirname, 'node_modules/react/'),
       '@areas': path.resolve(__dirname, 'resources/js/areas/'),
       '@components': path.resolve(__dirname, 'resources/js/components/'),
       '@utils': path.resolve(__dirname, 'resources/js/utils/'),
@@ -34,7 +34,7 @@ mix.webpackConfig({
     rules: [
       {
         test: /\.jsx?$/,
-        exclude: [/node_modules/],
+        exclude: [/node_modules\/(?!(alangiacomin))/],
         use: {
           loader: 'babel-loader',
           options: {
