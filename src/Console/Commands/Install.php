@@ -30,13 +30,14 @@ class Install extends Command
      * @return void
      * @throws Exception
      */
-    public function handleCommand()
+    public function handleCommand(): void
     {
         $this->publish();
         $this->model();
         $this->database();
         $this->policies();
         $this->controller();
+        $this->middleware();
         $this->routes();
         $this->optimize();
 
@@ -202,6 +203,20 @@ class Install extends Command
         if (file_exists($controllerFile))
         {
             unlink($controllerFile);
+        }
+    }
+
+    private function middleware()
+    {
+        $filePath = app_path('Http/Kernel.php');
+        $str = file_get_contents($filePath);
+        if (!str_contains($str, '\App\Http\Middleware\TranslationManager::class,'))
+        {
+            $str = preg_replace(
+                '/\'web\' => \[/',
+                "'web' => [".PHP_EOL."            \App\Http\Middleware\TranslationManager::class,",
+                $str);
+            file_put_contents($filePath, $str);
         }
     }
 

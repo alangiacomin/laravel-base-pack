@@ -4,10 +4,12 @@ import { useCallback } from 'react';
 import useRoutes from '../../hooks/useRoutes';
 import useUser from '../../hooks/useUser';
 import { postLogout } from '../../apis/apiUser';
+import useLanguage from '../../hooks/useLanguage';
 
 const LayoutMain = () => {
   const { routes } = useRoutes();
   const user = useUser();
+  const { lang, setLanguage } = useLanguage();
 
   const onLogout = useCallback((event) => {
     event.preventDefault();
@@ -19,6 +21,17 @@ const LayoutMain = () => {
         }
       });
   }, [user]);
+
+  const onChangeLanguage = useCallback((event, l) => {
+    event.preventDefault();
+    event.stopPropagation();
+    setLanguage(l);
+  }, [setLanguage]);
+
+  const Languages = () => ['it', 'en', 'fr', 'de'].map((l) => (lang === l
+    ? (<span key={l} className="demo-navlink">{l}</span>)
+    : (<Link key={l} className="demo-navlink" to={routes.home.to} onClick={(event) => onChangeLanguage(event, l)}>{l}</Link>)));
+
   return (
     <div className="container">
       <div className="clearfix">
@@ -29,6 +42,7 @@ const LayoutMain = () => {
           (all links)
         </div>
         <div className="float-end">
+          <Languages />
           {user.isGuest
             ? (<Link className="demo-navlink" to={routes.login.to}>Login</Link>)
             : (<Link className="demo-navlink" to={routes.home.to} onClick={onLogout}>Logout</Link>)}
