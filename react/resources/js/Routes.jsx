@@ -3,20 +3,19 @@ import LayoutMain from './areas/website/LayoutMain';
 import withLazy from './hocs/withLazy';
 import withProtectedRoute from './hocs/withProtectedRoute';
 import useRoutes from './hooks/useRoutes';
-// import LayoutAdmin from './areas/admin/LayoutAdmin';
-// import User from './components/User';
-// import useUser from './hooks/useUser';
+import HomeC from './areas/website/Home';
+import PublicPageC from './areas/website/PublicPage';
+import ProtectedPageC from './areas/website/ProtectedPage';
+import LoginC from './areas/website/Login';
 
 const Routes = () => {
-  // const user = useUser();
-
   const { routes } = useRoutes();
 
   // WebSite
-  const Home = withProtectedRoute(withLazy(() => import('./areas/website/Home')), routes.home);
-  const PublicPage = withProtectedRoute(withLazy(() => import('./areas/website/PublicPage')), routes.publicPage);
-  const ProtectedPage = withProtectedRoute(withLazy(() => import('./areas/website/ProtectedPage')), routes.protectedPage);
-  const Login = withProtectedRoute(withLazy(() => import('./areas/website/Login')), routes.login);
+  const Home = withProtectedRoute(() => <HomeC />, routes.home);
+  const PublicPage = withProtectedRoute(<PublicPageC />, routes.publicPage);
+  const ProtectedPage = withProtectedRoute(<ProtectedPageC />, routes.protectedPage);
+  const Login = withProtectedRoute(<LoginC />, routes.login);
 
   // Admin
   // const Admin = withProtectedRoute(withLazy(() => import('./areas/admin/Admin')), routes.admin);

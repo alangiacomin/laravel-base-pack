@@ -1,15 +1,15 @@
 import PropTypes from 'prop-types';
-import { Input as InputComponent, useFormContext } from '@alangiacomin/ui-components-react';
+import {Input as InputComponent, useFormContext} from '@alangiacomin/ui-components-react';
 
 const Input = ({
-                 id, name, autoFocus, label, type,
-               }) => {
-  const { formErrors } = useFormContext();
+  id, name, autoFocus, label, type,
+}) => {
+  const {formErrors} = useFormContext();
 
   return (
     <div>
       <label className="form" htmlFor={id}>{label}</label>
-      <InputComponent type={type} id={id} className="form-control" name={name} autoFocus={autoFocus} />
+      <InputComponent type={type} id={id} className="form-control" name={name} autoFocus={autoFocus}/>
       {formErrors[name] && (
         <ul>
           {formErrors[name].map((err) => (<li key={err}>{err}</li>))}
