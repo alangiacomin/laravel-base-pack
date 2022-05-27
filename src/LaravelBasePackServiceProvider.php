@@ -34,8 +34,9 @@ class LaravelBasePackServiceProvider extends ServiceProvider
     public function boot()
     {
         $this->publishes([
-            __DIR__.'/../config/' => config_path(),
             __DIR__.'/../app/' => app_path(),
+            __DIR__.'/../config/' => config_path(),
+            __DIR__.'/../lang/' => lang_path(),
         ], 'basepack-install');
 
         $this->publishes([

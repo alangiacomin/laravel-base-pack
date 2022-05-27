@@ -6,10 +6,10 @@ Route::controller(\App\Http\Controllers\AuthController::class)
         Route::post('logout', 'logout');
     });
 
-Route::post('/translation/setLocale', [TranslationController::class, 'setLocale']);
-Route::get('/translation/{namespace}', [TranslationController::class, 'getTranslation'])
+Route::post('/translation/setLocale', [\App\Http\Controllers\TranslationController::class, 'setLocale']);
+Route::get('/translation/{namespace}', [\App\Http\Controllers\TranslationController::class, 'getTranslation'])
     ->where('namespace', '[^/]+');
-Route::get('/translation/{locale}/{namespace}', [TranslationController::class, 'getTranslation'])
+Route::get('/translation/{locale}/{namespace}', [\App\Http\Controllers\TranslationController::class, 'getTranslation'])
     ->where('locale', '.+')
     ->where('namespace', '.+');
 
