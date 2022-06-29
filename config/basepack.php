@@ -46,6 +46,14 @@ return [
     ],
 
     /**
+     * Routes configuration
+     */
+    'routes' => [
+        'fallback' => true,
+        'fallbackView' => 'react',
+    ],
+
+    /**
      * Log configuration
      */
     'log' => [

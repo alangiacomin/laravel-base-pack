@@ -49,6 +49,11 @@ class LaravelBasePackServiceProvider extends ServiceProvider
 
         $this->loadMigrationsFrom(__DIR__.'/../database/migrations');
 
+        if (config('basepack.routes.fallback'))
+        {
+            $this->loadRoutesFrom(__DIR__.'/../routes/web.php');
+        }
+
         if ($this->app->runningInConsole())
         {
             $this->commands([
