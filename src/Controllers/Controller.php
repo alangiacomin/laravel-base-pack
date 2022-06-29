@@ -12,7 +12,7 @@ use Illuminate\Foundation\Validation\ValidatesRequests;
 use Illuminate\Routing\Controller as BaseController;
 
 /**
- * @method middleware(string $strtolower)
+ * @method middleware(string $middleware)
  */
 abstract class Controller extends BaseController
 {
@@ -24,7 +24,7 @@ abstract class Controller extends BaseController
 
         foreach (($this->restrictedMethods ?? []) as $rm)
         {
-            $this->middleware(strtolower("permissions:{$controllerName}-{$rm}"))->only($rm);
+            $this->middleware(strtolower("permission:{$controllerName}-{$rm}"))->only($rm);
         }
 
         foreach (($this->jsonResponse ?? []) as $jr)
