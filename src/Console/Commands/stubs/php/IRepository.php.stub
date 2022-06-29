@@ -30,7 +30,7 @@ interface I{{ model }}Repository extends IRepository
      * @param {{ model }} ${{ modelVar }}
      * @return void
      */
-    function delete({{ model }} ${{ modelVar }});
+    function delete({{ model }} ${{ modelVar }}): void;
 
     /**
      * List elements

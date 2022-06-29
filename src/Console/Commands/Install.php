@@ -208,6 +208,8 @@ class Install extends Command
 
     private function middleware()
     {
+        $this->newLine();
+        $this->comment("Middleware");
         $filePath = app_path('Http/Kernel.php');
         $str = file_get_contents($filePath);
         if (!str_contains($str, '\App\Http\Middleware\TranslationManager::class,'))
@@ -218,6 +220,31 @@ class Install extends Command
                 $str);
             file_put_contents($filePath, $str);
         }
+
+        $filePath = app_path('Http/Kernel.php');
+        $str = file_get_contents($filePath);
+        if (!str_contains($str, '\Spatie\Permission\Middlewares\RoleOrPermissionMiddleware::class'))
+        {
+            $str = preg_replace(
+                '/protected \$routeMiddleware = \[/',
+                "protected \$routeMiddleware = [".PHP_EOL."        'role_or_permission' => \Spatie\Permission\Middlewares\RoleOrPermissionMiddleware::class,",
+                $str);
+        }
+        if (!str_contains($str, '\Spatie\Permission\Middlewares\PermissionMiddleware::class'))
+        {
+            $str = preg_replace(
+                '/protected \$routeMiddleware = \[/',
+                "protected \$routeMiddleware = [".PHP_EOL."        'permission' => \Spatie\Permission\Middlewares\PermissionMiddleware::class,",
+                $str);
+        }
+        if (!str_contains($str, '\Spatie\Permission\Middlewares\RoleMiddleware::class'))
+        {
+            $str = preg_replace(
+                '/protected \$routeMiddleware = \[/',
+                "protected \$routeMiddleware = [".PHP_EOL."        'role' => \Spatie\Permission\Middlewares\RoleMiddleware::class,",
+                $str);
+        }
+        file_put_contents($filePath, $str);
     }
 
     private function routes()

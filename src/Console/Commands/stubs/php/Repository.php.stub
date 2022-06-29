@@ -28,7 +28,7 @@ class {{ model }}Repository extends Repository implements I{{ model }}Repository
         return ${{ modelVar }};
     }
 
-    public function delete({{ model }} ${{ modelVar }})
+    public function delete({{ model }} ${{ modelVar }}): void
     {
         DB::transaction(function () use (${{ modelVar }}) {
             $a = ${{ modelVar }}->delete();

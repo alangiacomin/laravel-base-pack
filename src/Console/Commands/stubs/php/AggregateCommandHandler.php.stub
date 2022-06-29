@@ -4,6 +4,8 @@ namespace {{ handlerNamespace }};
 
 use Alangiacomin\LaravelBasePack\CommandHandlers\AggregateCommandHandler;
 use {{ commandNamespace }}\{{ command }};
+use {{ modelNamespace }}\{{ aggregate }};
+use {{ repositoryNamespace }}\I{{ aggregate }}Repository;
 
 class {{ command }}Handler extends AggregateCommandHandler
 {
@@ -14,9 +16,9 @@ class {{ command }}Handler extends AggregateCommandHandler
      */
     public {{ command }} $command;
 
-    public IObjectRepository $objectRepository;
+    public I{{ aggregate }}Repository $objectRepository;
 
-    public Object $aggregate;
+    public {{ aggregate }} $aggregate;
 
     /**
      * Internal working prop

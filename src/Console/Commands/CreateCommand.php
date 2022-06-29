@@ -32,20 +32,32 @@ class CreateCommand extends Command
     public function handleCommand()
     {
         $commandName = $this->argument('name');
+        $aggregate = $this->option('aggregate');
+        $aggregateName = null;
 
-        $this->createCommandFile($commandName);
-        $this->createCommandHandlerFile($commandName, $this->option('aggregate'));
+        if ($aggregate)
+        {
+            $aggregateName = $this->ask('Aggregate name');
+            if (empty($aggregateName))
+            {
+                throw new Exception("Aggregate name not defined");
+            }
+        }
+
+        $this->createCommandFile($commandName, $aggregate);
+        $this->createCommandHandlerFile($commandName, $aggregateName);
         $this->createCommandRuleFile($commandName);
     }
 
     /**
      * @throws Exception
      */
-    private function createCommandFile($name): void
+    private function createCommandFile($name, $aggregate): void
     {
         (new StubCompiler("Command", $name))
             ->replace("namespace", Config::get('basepack.namespaces.commands'))
             ->replace("name", $name)
+            ->replace("aggregate", $aggregate ? "Aggregate" : '')
             ->save('commands');
 
         $this->comment("$name.php created");
@@ -54,13 +66,16 @@ class CreateCommand extends Command
     /**
      * @throws Exception
      */
-    private function createCommandHandlerFile($name, $aggregate = false): void
+    private function createCommandHandlerFile($name, $aggregate = null): void
     {
-        $stubName = $aggregate ? "AggregateCommandHandler" : "CommandHandler";
+        $stubName = !empty($aggregate) ? "AggregateCommandHandler" : "CommandHandler";
         (new StubCompiler($stubName, "{$name}Handler"))
             ->replace("handlerNamespace", Config::get('basepack.namespaces.commandHandlers'))
             ->replace("commandNamespace", Config::get('basepack.namespaces.commands'))
+            ->replace("repositoryNamespace", Config::get('basepack.namespaces.repositories'))
+            ->replace("modelNamespace", Config::get('basepack.namespaces.models'))
             ->replace("command", $name)
+            ->replace("aggregate", $aggregate ?? '')
             ->save('commandHandlers');
 
         $this->comment("{$name}Handler.php created");

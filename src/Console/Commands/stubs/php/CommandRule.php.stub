@@ -10,9 +10,10 @@ class {{ command }}Rule
     /**
      * Evaluate if command can be executed
      *
+     * @param  {{ command }}  $command
      * @throws Exception
      */
-    public function evaluate({{ command }} $command)
+    public function evaluate({{ command }} $command): void
     {
         throw new Exception("Rule exception");
     }

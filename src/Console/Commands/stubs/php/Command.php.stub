@@ -2,9 +2,9 @@
 
 namespace {{ namespace }};
 
-use Alangiacomin\LaravelBasePack\Commands\Command;
+use Alangiacomin\LaravelBasePack\Commands\{{ aggregate }}Command;
 
-class {{ name }} extends Command
+class {{ name }} extends {{ aggregate }}Command
 {
     /**
      * Property description
