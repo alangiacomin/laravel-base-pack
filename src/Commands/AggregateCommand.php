@@ -9,5 +9,5 @@ abstract class AggregateCommand extends Command
      *
      * @var mixed
      */
-    public mixed $aggregateId;
+    public mixed $aggregateId = null;
 }
