@@ -12,7 +12,3 @@ Route::get('/translation/{namespace}', [\App\Http\Controllers\TranslationControl
 Route::get('/translation/{locale}/{namespace}', [\App\Http\Controllers\TranslationController::class, 'getTranslation'])
     ->where('locale', '.+')
     ->where('namespace', '.+');
-
-Route::fallback(function () {
-    return view('welcome');
-});

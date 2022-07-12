@@ -1,6 +1,5 @@
 import { useRoutes as useReactRoutes } from 'react-router';
 import LayoutMain from './areas/website/LayoutMain';
-import withLazy from './hocs/withLazy';
 import withProtectedRoute from './hocs/withProtectedRoute';
 import useRoutes from './hooks/useRoutes';
 import HomeC from './areas/website/Home';
@@ -12,10 +11,10 @@ const Routes = () => {
   const { routes } = useRoutes();
 
   // WebSite
-  const Home = withProtectedRoute(() => <HomeC />, routes.home);
-  const PublicPage = withProtectedRoute(<PublicPageC />, routes.publicPage);
-  const ProtectedPage = withProtectedRoute(<ProtectedPageC />, routes.protectedPage);
-  const Login = withProtectedRoute(<LoginC />, routes.login);
+  const Home = withProtectedRoute(HomeC, routes.home);
+  const PublicPage = withProtectedRoute(PublicPageC, routes.publicPage);
+  const ProtectedPage = withProtectedRoute(ProtectedPageC, routes.protectedPage);
+  const Login = withProtectedRoute(LoginC, routes.login);
 
   // Admin
   // const Admin = withProtectedRoute(withLazy(() => import('./areas/admin/Admin')), routes.admin);

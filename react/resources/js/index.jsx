@@ -1,7 +1,7 @@
 import Application from './Application';
 import { getProfile } from './apis/apiAuth';
 
-const ReactDOM = require('react-dom/client');
+import * as ReactDOM from 'react-dom/client';
 
 getProfile()
   .then((result) => {

@@ -48,32 +48,30 @@ class React extends Command
         $this->comment("Install dependencies");
 
         $deps = [
-            '@alangiacomin/js-utils' => '^2.0.3',
-            '@alangiacomin/ui-components-react' => '~0.0.1',
-            '@reduxjs/toolkit' => '^1.8.1',
-            'axios' => '^0.27.2',
+            '@alangiacomin/js-utils' => '^2.0.4',
+            '@alangiacomin/ui-components-react' => '~0.0.3',
+            '@reduxjs/toolkit' => '^1.8.3',
             'bootstrap' => '^5.1.3',
-            'bootstrap-icons' => '^1.8.1',
+            'bootstrap-icons' => '^1.8.3',
             'classnames' => '^2.3.1',
             'prop-types' => '^15.8.1',
-            'react' => '^18.0.0',
-            'react-dom' => '^18.0.0',
-            'react-redux' => '^8.0.1',
+            'react' => '^18.2.0',
+            'react-dom' => '^18.2.0',
+            'react-redux' => '^8.0.2',
             'react-router' => '^6.3.0',
             'react-router-dom' => '^6.3.0',
         ];
 
         $devDeps = [
-            '@babel/preset-react' => '^7.16.7',
-            'eslint' => '^8.14.0',
+            "@vitejs/plugin-react"=> "^1.3.2",
+            'eslint' => '^8.19.0',
             'eslint-config-airbnb' => '^19.0.4',
             'eslint-config-react-app' => '^7.0.1',
             'eslint-plugin-babel' => '^5.3.1',
-            'eslint-plugin-react' => '^7.29.4',
-            'laravel-mix' => '^6.0.43',
-            'resolve-url-loader' => '^5.0.0',
-            'sass' => '^1.50.1',
-            'sass-loader' => '^12.6.0',
+            'eslint-plugin-react' => '^7.30.1',
+            'laravel-vite-plugin' => '^0.2.4',
+            'sass' => '^1.53.0',
+            'vite' => '^2.9.14',
         ];
 
         $string = file_get_contents(base_path('package.json'));
@@ -119,7 +117,8 @@ class React extends Command
 
         $files = [
             base_path('.eslintrc'),
-            base_path('webpack.mix.js')
+            base_path('webpack.mix.js'),
+            base_path('vite.config.js')
             ];
         foreach ($files as $file)
         {

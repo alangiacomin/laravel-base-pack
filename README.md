@@ -30,14 +30,6 @@ php artisan basepack:install
 Execute command
 ```
 php artisan basepack:react
-npm run dev
-```
-
-Edit ```routes/web.php```
-```php
-Route::fallback(function () {
-    return view('react');
-});
 ```
 
 ## Create ...

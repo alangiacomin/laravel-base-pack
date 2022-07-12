@@ -13,9 +13,8 @@
   <title>{{ config('app.name', 'My title') }}</title>
 
   <!-- Scripts -->
-  <script src="{{ asset(mix('/js/manifest.js')) }}" defer></script>
-  <script src="{{ asset(mix('/js/vendor.js')) }}" defer></script>
-  <script src="{{ asset(mix('/js/app.js')) }}" defer></script>
+  @viteReactRefresh
+  @vite(['resources/js/index.jsx','resources/sass/app.scss'])
 
   <!-- Fonts -->
   <!--
@@ -24,7 +23,6 @@
   -->
 
   <!-- Styles -->
-  <link href="{{ asset(mix('/css/app.css')) }}" rel="stylesheet">
 
   <script>
     window.appname = "{{ config('app.name', 'My title') }}";
