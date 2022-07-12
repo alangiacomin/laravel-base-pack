@@ -11,6 +11,8 @@ beforeEach(function () {
     $this->obj = new BusObjectTestable();
 });
 
+/* CONSTRUCTOR */
+
 test("constructor new default object", function () {
     expect(Guid::isValid($this->obj->id))->toBeTrue();
     expect(Guid::isValid($this->obj->correlationId))->toBeTrue();
@@ -31,6 +33,8 @@ test("constructor must not replace existing correlation id", function () {
     expect($this->obj->correlationId)->toBe('e36dc4f8-f3e2-4aa5-a544-832a95e95419');
 });
 
+/* GETTER */
+
 test("get unknown prop must throw exception", function () {
     $act = fn() => $this->obj->unknownProp;
     expect($act)->toThrow(Exception::class, "Property 'unknownProp' not readable.");
@@ -42,6 +46,8 @@ test("get known prop must not throw exception", function () {
     expect($v)->toBe("b2f805aa-ede9-4b4e-a5d4-5138b1d86840");
 });
 
+/* SETTER */
+
 test("set unknown prop must throw exception", function () {
     $act = fn() => $this->obj->unknownProp = 1;
     expect($act)->toThrow(Exception::class, "Property 'unknownProp' not writeable.");
@@ -51,6 +57,8 @@ test("set known prop must not throw exception", function () {
     $this->obj->correlationId = "b2f805aa-ede9-4b4e-a5d4-5138b1d86840";
     expect($this->obj->correlationId)->toBe("b2f805aa-ede9-4b4e-a5d4-5138b1d86840");
 });
+
+/* CLONE */
 
 test("clone must have new id", function () {
     $cloned = $this->obj->clone();
@@ -63,6 +71,8 @@ test("clone must not replace props", function () {
     expect($cloned->correlationId)->toBe("b2f805aa-ede9-4b4e-a5d4-5138b1d86840");
 });
 
+/* PAYLOAD */
+
 test("payload props", function () {
     $this->obj->id = "254470FF-3CA4-435B-B5F1-CFC411DC8369";
     $this->obj->correlationId = "b2f805aa-ede9-4b4e-a5d4-5138b1d86840";
@@ -70,20 +80,28 @@ test("payload props", function () {
     expect($payload)->toBe('{"id":"254470FF-3CA4-435B-B5F1-CFC411DC8369","correlationId":"b2f805aa-ede9-4b4e-a5d4-5138b1d86840"}');
 });
 
+/* NAME */
+
 test("name", function () {
     $name = $this->obj->name();
     expect($name)->toBe('BusObjectTestable');
 });
+
+/* CLASS */
 
 test("class", function () {
     $class = $this->obj->class();
     expect($class)->toBe('Alangiacomin\LaravelBasePack\Tests\Bus\BusObjectTestable');
 });
 
+/* HANDLER NAME */
+
 test("handlerName", function () {
     $name = $this->obj->handlerName();
     expect($name)->toBe('BusObjectTestableHandler');
 });
+
+/* PROPS */
 
 test("props", function () {
     $this->obj->id = "254470FF-3CA4-435B-B5F1-CFC411DC8369";
@@ -94,6 +112,8 @@ test("props", function () {
         'correlationId' => "b2f805aa-ede9-4b4e-a5d4-5138b1d86840",
     ]);
 });
+
+/* ASSIGN NEW ID */
 
 test("assignNewId", function () {
     $this->obj->id = "254470FF-3CA4-435B-B5F1-CFC411DC8369";
