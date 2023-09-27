@@ -1,0 +1,63 @@
+{
+    "name": "alangiacomin/laravel-base-pack",
+    "description": "Laravel base pack",
+    "license": "MIT",
+    "keywords": [
+        "alangiacomin",
+        "base",
+        "laravel",
+        "laravel-base-pack"
+    ],
+    "homepage": "https://github.com/alangiacomin/laravel-base-pack",
+    "authors": [
+        {
+            "name": "Alan Giacomin",
+            "email": "alan.giacomin@gmail.com",
+            "role": "Developer"
+        }
+    ],
+    "require": {
+        "php": "^8.1",
+        "alangiacomin/php-utils": "^1.0"
+    },
+    "require-dev": {
+        "laravel/framework": "^10.25",
+        "laravel/sanctum": "^3.3"
+    },
+    "autoload": {
+        "psr-4": {
+            "App\\": "app/",
+            "Database\\Factories\\": "database/factories/",
+            "Database\\Seeders\\": "database/seeders/"
+        }
+    },
+    "autoload-dev": {
+        "psr-4": {
+            "Tests\\": "tests/"
+        }
+    },
+    "scripts": {
+        "test": "./vendor/bin/pest --no-coverage",
+        "test-coverage": [
+            "@putenv XDEBUG_MODE=coverage",
+            "./vendor/bin/pest --coverage --coverage-html coverage"
+        ]
+    },
+    "extra": {
+        "laravel": {
+            "providers": [
+                "Alangiacomin\\LaravelBasePack\\LaravelBasePackServiceProvider",
+                "Alangiacomin\\LaravelBasePack\\Providers\\AppServiceProvider",
+                "Alangiacomin\\LaravelBasePack\\Providers\\EventServiceProvider"
+            ]
+        }
+    },
+    "config": {
+        "sort-packages": true,
+        "allow-plugins": {
+            "pestphp/pest-plugin": true
+        }
+    },
+    "minimum-stability": "stable",
+    "prefer-stable": true
+}
