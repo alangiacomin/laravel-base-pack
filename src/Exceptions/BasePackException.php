@@ -6,8 +6,4 @@ use Exception;
 
 class BasePackException extends Exception
 {
-	
-	
-	
-	
 }
