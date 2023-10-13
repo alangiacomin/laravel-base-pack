@@ -22,6 +22,7 @@
     },
     "require-dev": {
         "laravel/framework": "^10.25",
+        "laravel/pint": "^1.13",
         "laravel/sanctum": "^3.3"
     },
     "autoload": {
@@ -37,6 +38,7 @@
         }
     },
     "scripts": {
+        "pint": "./vendor/bin/pint",
         "test": "./vendor/bin/pest --no-coverage",
         "test-coverage": [
             "@putenv XDEBUG_MODE=coverage",
