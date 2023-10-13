@@ -23,18 +23,18 @@
     "require-dev": {
         "laravel/framework": "^10.25",
         "laravel/pint": "^1.13",
-        "laravel/sanctum": "^3.3"
+        "laravel/sanctum": "^3.3",
+        "orchestra/testbench": "^8.13",
+        "pestphp/pest": "^2.23"
     },
     "autoload": {
         "psr-4": {
-            "App\\": "app/",
-            "Database\\Factories\\": "database/factories/",
-            "Database\\Seeders\\": "database/seeders/"
+            "Alangiacomin\\LaravelBasePack\\": "src"
         }
     },
     "autoload-dev": {
         "psr-4": {
-            "Tests\\": "tests/"
+            "Alangiacomin\\LaravelBasePack\\Tests\\": "tests"
         }
     },
     "scripts": {
@@ -45,6 +45,12 @@
             "./vendor/bin/pest --coverage --coverage-html coverage"
         ]
     },
+    "config": {
+        "sort-packages": true,
+        "allow-plugins": {
+            "pestphp/pest-plugin": true
+        }
+    },
     "extra": {
         "laravel": {
             "providers": [
@@ -52,12 +58,6 @@
                 "Alangiacomin\\LaravelBasePack\\Providers\\AppServiceProvider",
                 "Alangiacomin\\LaravelBasePack\\Providers\\EventServiceProvider"
             ]
-        }
-    },
-    "config": {
-        "sort-packages": true,
-        "allow-plugins": {
-            "pestphp/pest-plugin": true
         }
     },
     "minimum-stability": "stable",
