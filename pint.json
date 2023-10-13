@@ -1,0 +1,7 @@
+{
+  "preset": "laravel",
+  "rules": {
+    "no_extra_blank_lines": {"tokens":["default","curly_brace_block", "use"]},
+    "blank_line_after_opening_tag": true
+  }
+}
