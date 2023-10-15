@@ -1,5 +1,8 @@
 <?php
 
+namespace Alangiacomin\LaravelBasePack;
+
+use Alangiacomin\LaravelBasePack\Console\Commands\CreateCommand;
 use Illuminate\Foundation\Console\AboutCommand;
 use Illuminate\Support\ServiceProvider;
 
@@ -10,7 +13,15 @@ class LaravelBasePackServiceProvider extends ServiceProvider
      */
     public function boot(): void
     {
-        AboutCommand::add('Laravel Base Pack', fn () => ['Version' => '1.0.1']);
+        AboutCommand::add('Laravel Base Pack', fn () => ['Version' => '1.0.0']);
+
+        if ($this->app->runningInConsole()) {
+            $this->commands(
+                [
+                    CreateCommand::class,
+                ]
+            );
+        }
     }
 
     /**

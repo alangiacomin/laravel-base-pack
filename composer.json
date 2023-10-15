@@ -54,6 +54,7 @@
     "extra": {
         "laravel": {
             "providers": [
+                "Alangiacomin\\LaravelBasePack\\LaravelBasePackServiceProvider"
             ]
         }
     },

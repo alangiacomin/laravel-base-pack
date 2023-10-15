@@ -1,0 +1,15 @@
+<?php
+
+namespace {{ CommandNamespace }};
+
+use Alangiacomin\LaravelBasePack\Commands\Command;
+
+class {{ CommandName }} extends Command
+{
+    /**
+     * Property description
+     *
+     * @var string
+     */
+    public string $prop = '';
+}

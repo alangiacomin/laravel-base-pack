@@ -10,14 +10,14 @@ trait TestableCallables
     /**
      * @throws ReflectionException
      */
-    public function __call(string $name, array $arguments)
+    public function callMethod(string $name, array $arguments)
     {
         $method =
             method_exists($this, $name)
                 ? new ReflectionMethod($this, $name)
                 : new ReflectionMethod(get_parent_class($this), $name);
 
-        if ($method->isPrivate()) {
+        if (!$method->isPublic()) {
             /** @noinspection PhpExpressionResultUnusedInspection */
             $method->setAccessible(true);
             try {
