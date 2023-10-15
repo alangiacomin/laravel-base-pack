@@ -54,9 +54,6 @@
     "extra": {
         "laravel": {
             "providers": [
-                "Alangiacomin\\LaravelBasePack\\LaravelBasePackServiceProvider",
-                "Alangiacomin\\LaravelBasePack\\Providers\\AppServiceProvider",
-                "Alangiacomin\\LaravelBasePack\\Providers\\EventServiceProvider"
             ]
         }
     },

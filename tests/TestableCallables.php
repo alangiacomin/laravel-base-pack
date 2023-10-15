@@ -10,7 +10,7 @@ trait TestableCallables
     /**
      * @throws ReflectionException
      */
-    public function call_user_defined(string $name, mixed ...$arguments)
+    public function __call(string $name, array $arguments)
     {
         $method =
             method_exists($this, $name)
@@ -21,12 +21,12 @@ trait TestableCallables
             /** @noinspection PhpExpressionResultUnusedInspection */
             $method->setAccessible(true);
             try {
-                return $method->invoke($this, $arguments);
+                return $method->invoke($this, ...$arguments);
             } catch (ReflectionException) {
                 return null;
             }
         }
 
-        return call_user_func(['parent', $name], $arguments);
+        return call_user_func(['parent', $name], ...$arguments);
     }
 }
