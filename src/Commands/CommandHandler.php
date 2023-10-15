@@ -21,6 +21,8 @@ abstract class CommandHandler extends BusHandler implements ShouldQueue
 
     /**
      * Command constructor
+     *
+     * @param  IBusObject  $busObject The command
      */
     public function __construct(IBusObject $busObject)
     {
@@ -31,15 +33,17 @@ abstract class CommandHandler extends BusHandler implements ShouldQueue
     /**
      * Gets default response, overridable
      *
-     * @return null
+     * @return object|null Response after handler execution
      */
-    public function getResponse()
+    public function getResponse(): ?object
     {
         return null;
     }
 
     /**
      * Handle the {@see Command}
+     *
+     * @return CommandResult Command result
      */
     final public function handle(): CommandResult
     {
@@ -61,11 +65,17 @@ abstract class CommandHandler extends BusHandler implements ShouldQueue
         return $commandResult;
     }
 
+    /**
+     * Evaluates the rule before executing the command
+     */
     protected function evaluateRule(): void
     {
         $ruleClass = $this->busObject->fullName().'Rule';
         if (class_exists($ruleClass)) {
-            (new $ruleClass())->evaluate($this->busObject);
+            $ruleInstance = (new $ruleClass($this->busObject));
+            if ($ruleInstance instanceof CommandRule) {
+                $ruleInstance->evaluate();
+            }
         }
     }
 }

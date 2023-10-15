@@ -6,6 +6,7 @@ use Alangiacomin\LaravelBasePack\LaravelBasePack;
 use Illuminate\Support\Facades\Facade;
 
 /**
+ * @method static mixed callStaticWithInjection(string $class, string $method, array $params = [])
  * @method static mixed callWithInjection(object $obj, string $method, array $params = [])
  * @method static mixed injectedInstance(string $object)
  */
