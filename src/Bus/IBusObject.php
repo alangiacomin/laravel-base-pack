@@ -20,4 +20,9 @@ interface IBusObject
      * Gets props list
      */
     public function props(): array;
+
+    /**
+     * Gets bus object name with full namespace
+     */
+    public function fullName(): string;
 }

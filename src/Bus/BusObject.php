@@ -88,4 +88,12 @@ abstract class BusObject implements IBusObject
     {
         $this->id = Guid::newGuid();
     }
+
+    /**
+     * {@inheritDoc}
+     */
+    final public function fullName(): string
+    {
+        return get_class($this);
+    }
 }
