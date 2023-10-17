@@ -1,0 +1,46 @@
+<?php
+
+namespace {{ HandlerNamespace }};
+
+use Alangiacomin\LaravelBasePack\Commands\CommandHandler;
+
+class {{ CommandName }}Handler extends CommandHandler
+{
+    /**
+     * The command
+     *
+     * @return  void
+     */
+    public {{ CommandName }} $command;
+
+    /**
+     * Internal working prop
+     *
+     * @var string
+     */
+    private string $myVar;
+
+    /**
+     * Execute the command
+     *
+     * @return  void
+     */
+    public function execute(): void
+    {
+        $this->aggregate = $this->objectRepository->create(
+            var: $this->command->prop,
+        );
+
+        $this->myVar = "value";
+    }
+
+    /**
+     * Command response
+     *
+     * @return object|null
+     */
+    public function getResponse(): ?object
+    {
+        return (object)$this->myVar;
+    }
+}

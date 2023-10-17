@@ -25,6 +25,8 @@ abstract class Command extends ConsoleCommand
      */
     public function handle(): void
     {
+        $this->newline();
+
         try {
             $this->handleCommand();
             $this->info('Done!');
@@ -34,6 +36,8 @@ abstract class Command extends ConsoleCommand
             $this->newline();
             $this->line($th->getMessage());
         }
+
+        $this->newline();
     }
 
     abstract public function handleCommand(): void;

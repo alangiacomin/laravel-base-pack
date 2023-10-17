@@ -7,7 +7,6 @@ namespace Alangiacomin\LaravelBasePack\Console\Commands;
 use Alangiacomin\LaravelBasePack\Console\Commands\Core\Command;
 use Alangiacomin\LaravelBasePack\Console\Commands\Core\StubCompiler;
 use Alangiacomin\LaravelBasePack\Exceptions\BasePackException;
-use Illuminate\Support\Facades\Config;
 
 class CreateCommand extends Command
 {
@@ -25,6 +24,8 @@ class CreateCommand extends Command
      */
     protected $description = 'Create new Command, CommandHandler and CommandRule classes';
 
+    private $baseNamespace = "App\Commands";
+
     /**
      * Execute the console command.
      *
@@ -35,8 +36,8 @@ class CreateCommand extends Command
         $commandName = $this->argument('name');
 
         $this->createCommandFile($commandName);
-        //        $this->createCommandHandlerFile($commandName);
-        //        $this->createCommandRuleFile($commandName);
+        $this->createCommandHandlerFile($commandName);
+        $this->createCommandRuleFile($commandName);
     }
 
     /**
@@ -44,17 +45,17 @@ class CreateCommand extends Command
      */
     private function createCommandFile(string $name): void
     {
-        StubCompiler::Compile(
+        $errors = StubCompiler::Compile(
             'Command',
             $name,
-            'commands',
+            $this->baseNamespace,
             [
-                'commandNamespace' => "App\Commands".$this->relativeNamespace($name),
+                'commandNamespace' => $this->baseNamespace.$this->relativeNamespace($name),
                 'commandName' => $this->elementName($name),
             ]
         );
 
-        $this->comment("$name.php created");
+        $this->printResult("$name.php created", $errors);
     }
 
     /**
@@ -62,21 +63,17 @@ class CreateCommand extends Command
      */
     private function createCommandHandlerFile(string $name): void
     {
-        StubCompiler::Compile(
+        $errors = StubCompiler::Compile(
             'CommandHandler',
             "{$name}Handler",
-            'commands',
+            $this->baseNamespace,
             [
-                'handlerNamespace' => "App\Commands".$this->relativeNamespace($name),
-                'commandNamespace' => "App\Commands".$this->relativeNamespace($name),
-                'repositoryNamespace' => Config::get('basepack.namespaces.repositories'),
-                'modelNamespace' => Config::get('basepack.namespaces.models'),
+                'handlerNamespace' => $this->baseNamespace.$this->relativeNamespace($name),
                 'commandName' => $this->elementName($name),
-                'aggregateName' => $aggregateName ?? '',
             ]
         );
 
-        $this->comment("{$name}Handler.php created");
+        $this->printResult("{$name}Handler.php created", $errors);
     }
 
     /**
@@ -84,17 +81,27 @@ class CreateCommand extends Command
      */
     private function createCommandRuleFile($name): void
     {
-        StubCompiler::Compile(
+        $errors = StubCompiler::Compile(
             'CommandRule',
             "{$name}Rule",
-            'commands',
+            $this->baseNamespace,
             [
-                'handlerNamespace' => Config::get('basepack.namespaces.commands').$this->relativeNamespace($name),
-                'commandNamespace' => Config::get('basepack.namespaces.commands').$this->relativeNamespace($name),
+                'handlerNamespace' => $this->baseNamespace.$this->relativeNamespace($name),
                 'commandName' => $this->elementName($name),
             ]
         );
 
-        $this->comment("{$name}Rule.php created");
+        $this->printResult("{$name}Rule.php created", $errors);
+    }
+
+    private function printResult(string $successMessage, array $errors)
+    {
+        if (empty($errors)) {
+            $this->comment($successMessage);
+        } else {
+            foreach ($errors as $error) {
+                $this->error($error);
+            }
+        }
     }
 }

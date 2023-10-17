@@ -3,7 +3,6 @@
 namespace Alangiacomin\LaravelBasePack\Console\Commands\Core;
 
 use Alangiacomin\LaravelBasePack\Exceptions\BasePackException;
-use Illuminate\Support\Facades\Config;
 
 /**
  * Compile and save stub files
@@ -11,19 +10,42 @@ use Illuminate\Support\Facades\Config;
 class StubCompiler
 {
     /**
-     * Stub name template
+     * @var string Stub name template
      */
     private string $stubName;
 
     /**
-     * Output file name
+     * @var string Output file name
      */
     private string $outName;
 
     /**
-     * Stub contents
+     * @var string Stub contents
      */
     private string $contents;
+
+    /**
+     * @var array Compile errors
+     */
+    private array $errors;
+
+    /**
+     * @param  string  $stubName Stub name
+     * @param  string  $outName Output file name
+     * @param  string  $baseNamespace Base namespace
+     * @param  array  $replacements Replacements
+     * @return array Errors
+     *
+     * @throws BasePackException
+     */
+    public static function Compile(string $stubName, string $outName, string $baseNamespace, array $replacements): array
+    {
+        $compiler = new StubCompiler($stubName, $outName);
+        $compiler->multiReplace($replacements);
+        $compiler->save($baseNamespace);
+
+        return $compiler->getResult();
+    }
 
     /**
      * Constructor
@@ -35,6 +57,7 @@ class StubCompiler
     {
         $this->stubName = $stubName;
         $this->outName = $outName;
+        $this->errors = [];
 
         $this->contents = $this->getContents();
     }
@@ -50,16 +73,6 @@ class StubCompiler
     }
 
     /**
-     * @throws BasePackException
-     */
-    public static function Compile(string $stubName, string $outName, string $lastNamespace, array $replacements): void
-    {
-        $compiler = new StubCompiler($stubName, $outName);
-        $compiler->multiReplace($replacements);
-        $compiler->save($lastNamespace);
-    }
-
-    /**
      * @return $this
      */
     public function multiReplace(array $replacements): StubCompiler
@@ -71,7 +84,7 @@ class StubCompiler
         }
 
         $this->contents = preg_replace(
-            array_map(fn ($k) => "/\{\{ *{$k} *\}\}/", array_keys($repl)),
+            array_map(fn ($k) => "/\{\{ *$k *\}\}/", array_keys($repl)),
             array_values($repl),
             $this->contents
         );
@@ -99,22 +112,31 @@ class StubCompiler
      * Save contents to file
      *
      * @param  string  $namespace  Last part namespace where to save file
-     *
-     * @throws BasePackException Throws if file already exists
      */
     private function putContents(string $namespace): void
     {
-        $newFile = base_path().'/'.Config::get('basepack.namespaces.'.$namespace).'/'.$this->outName.'.php';
+        $newFile = base_path().'/'.$namespace.'/'.$this->outName.'.php';
 
         if (!is_dir(dirname($newFile))) {
             mkdir(dirname($newFile), 0777, true);
         }
 
         if (file_exists($newFile)) {
-            throw new BasePackException("File '$newFile' already exists.");
+            $this->errors[] = $this->outName.'.php already exists';
         }
 
+
         file_put_contents($newFile, $this->contents);
+    }
+
+    /**
+     * Gets the compile result
+     *
+     * @return array Compile errors
+     */
+    private function getResult(): array
+    {
+        return $this->errors;
     }
 
     /**

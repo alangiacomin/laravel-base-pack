@@ -1,0 +1,26 @@
+<?php
+
+namespace {{ HandlerNamespace }};
+
+use Alangiacomin\LaravelBasePack\Commands\CommandRule;
+use Exception;
+
+class {{ CommandName }}Rule extends CommandRule
+{
+    /**
+     * @var {{ CommandName }} Command
+     */
+    public {{ CommandName }} $command;
+
+    /**
+     * Evaluate if command can be executed
+     *
+     * @throws Exception
+     */
+    public function evaluate(): void
+    {
+        if (!$this->command->var) {
+            throw new Exception("Rule exception");
+        }
+    }
+}
