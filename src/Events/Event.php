@@ -3,6 +3,7 @@
 namespace Alangiacomin\LaravelBasePack\Events;
 
 use Alangiacomin\LaravelBasePack\Bus\BusObject;
+use Alangiacomin\LaravelBasePack\Core\NamespaceUtility;
 use Illuminate\Broadcasting\InteractsWithSockets;
 use Illuminate\Foundation\Events\Dispatchable;
 use Illuminate\Queue\SerializesModels;
@@ -16,6 +17,6 @@ abstract class Event extends BusObject implements IEvent
      */
     public function broadcastAs(): string
     {
-        return $this->name();
+        return NamespaceUtility::elementName(get_class($this));
     }
 }
