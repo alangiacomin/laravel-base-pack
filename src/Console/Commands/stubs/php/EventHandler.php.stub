@@ -1,0 +1,25 @@
+<?php
+
+namespace {{ HandlerNamespace }};
+
+use Alangiacomin\LaravelBasePack\Events\EventHandler;
+
+class {{ EventName }}Handler extends EventHandler
+{
+    /**
+     * The event
+     *
+     * @var {{ EventName }}
+     */
+    public {{ EventName }} $event;
+
+    /**
+     * Execute the event
+     *
+     * @return void
+     */
+    public function execute(): void
+    {
+        //
+    }
+}

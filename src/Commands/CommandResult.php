@@ -14,7 +14,7 @@ final class CommandResult
     /**
      * Result of successful execution
      */
-    public object $result;
+    public object|string $result;
 
     /**
      * Detected errors on failure
@@ -32,7 +32,7 @@ final class CommandResult
     /**
      * Set command success
      */
-    public function setSuccess(object $result = null): void
+    public function setSuccess(object|string $result = null): void
     {
         $this->success = true;
         $this->result = $result ?? $this->defaultResult();

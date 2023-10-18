@@ -3,6 +3,7 @@
 namespace Alangiacomin\LaravelBasePack\Bus;
 
 use Alangiacomin\LaravelBasePack\Commands\CommandHandler;
+use Alangiacomin\LaravelBasePack\Events\EventHandler;
 use Alangiacomin\LaravelBasePack\Facades\LaravelBasePackFacade;
 use Alangiacomin\LaravelBasePack\Traits\HasBindingInjection;
 use Exception;
@@ -107,13 +108,13 @@ abstract class BusHandler implements ShouldQueue
             }
 
             $this->command = $this->busObject;
-        } /* elseif ($this instanceof EventHandler) {
-            if (! property_exists($this, 'event')) {
+        } elseif ($this instanceof EventHandler) {
+            if (!property_exists($this, 'event')) {
                 exit($this->busObject->fullName().": 'event' property must be defined");
             }
 
             $this->event = $this->busObject;
-        } */ else {
+        } else {
             exit($this->busObject->fullName().": Handler must be a 'CommandHandler' or an 'EventHandler'");
         }
     }

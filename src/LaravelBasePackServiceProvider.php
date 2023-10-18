@@ -3,6 +3,7 @@
 namespace Alangiacomin\LaravelBasePack;
 
 use Alangiacomin\LaravelBasePack\Console\Commands\CreateCommand;
+use Alangiacomin\LaravelBasePack\Console\Commands\CreateEvent;
 use Illuminate\Foundation\Console\AboutCommand;
 use Illuminate\Support\ServiceProvider;
 
@@ -19,6 +20,7 @@ class LaravelBasePackServiceProvider extends ServiceProvider
             $this->commands(
                 [
                     CreateCommand::class,
+                    CreateEvent::class,
                 ]
             );
         }

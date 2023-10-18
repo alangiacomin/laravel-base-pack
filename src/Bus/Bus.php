@@ -3,6 +3,7 @@
 namespace Alangiacomin\LaravelBasePack\Bus;
 
 use Alangiacomin\LaravelBasePack\Commands\ICommand;
+use Alangiacomin\LaravelBasePack\Events\IEvent;
 
 final class Bus
 {
@@ -31,6 +32,17 @@ final class Bus
     {
         $handlerClass = self::commandHandlerClassName($command);
         call_user_func([$handlerClass, 'dispatch'], $command);
+    }
+
+    /**
+     * Send event which will be handled asynchronously
+     *
+     * @param  IEvent  $event Event
+     */
+    final public static function publishEvent(IEvent $event): void
+    {
+        $classNameWithNamespace = $event->fullName();
+        call_user_func([$classNameWithNamespace, 'dispatch'], $event->props());
     }
 
     /**

@@ -96,7 +96,7 @@ abstract class Controller extends BaseController
     /**
      * Send {@see Command} on the bus
      */
-    final public function sendCommand(ICommand $command): void
+    final public function send(ICommand $command): void
     {
         LaravelBasePackFacade::callStaticWithInjection(
             Bus::class,

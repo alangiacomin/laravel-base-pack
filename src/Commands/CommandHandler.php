@@ -2,8 +2,10 @@
 
 namespace Alangiacomin\LaravelBasePack\Commands;
 
+use Alangiacomin\LaravelBasePack\Bus\Bus;
 use Alangiacomin\LaravelBasePack\Bus\BusHandler;
 use Alangiacomin\LaravelBasePack\Bus\IBusObject;
+use Alangiacomin\LaravelBasePack\Events\IEvent;
 use Alangiacomin\LaravelBasePack\Facades\LaravelBasePackFacade;
 use Illuminate\Bus\Queueable;
 use Illuminate\Contracts\Queue\ShouldQueue;
@@ -35,7 +37,7 @@ abstract class CommandHandler extends BusHandler implements ShouldQueue
      *
      * @return object|null Response after handler execution
      */
-    public function getResponse(): ?object
+    public function getResponse(): object|string|null
     {
         return null;
     }
@@ -71,11 +73,23 @@ abstract class CommandHandler extends BusHandler implements ShouldQueue
     protected function evaluateRule(): void
     {
         $ruleClass = $this->busObject->fullName().'Rule';
-        if (class_exists($ruleClass)) {
+        if (class_exists($ruleClass, false)) {
             $ruleInstance = (new $ruleClass($this->busObject));
             if ($ruleInstance instanceof CommandRule) {
                 $ruleInstance->evaluate();
             }
         }
+    }
+
+    /**
+     * Publish event on the bus
+     */
+    final public function publish(IEvent $event): void
+    {
+        LaravelBasePackFacade::callStaticWithInjection(
+            Bus::class,
+            'publishEvent',
+            ['event' => $event]
+        );
     }
 }

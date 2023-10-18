@@ -6,6 +6,7 @@ namespace Alangiacomin\LaravelBasePack\Console\Commands;
 
 use Alangiacomin\LaravelBasePack\Console\Commands\Core\Command;
 use Alangiacomin\LaravelBasePack\Console\Commands\Core\StubCompiler;
+use Alangiacomin\LaravelBasePack\Core\NamespaceUtility;
 use Alangiacomin\LaravelBasePack\Exceptions\BasePackException;
 
 class CreateCommand extends Command
@@ -24,7 +25,10 @@ class CreateCommand extends Command
      */
     protected $description = 'Create new Command, CommandHandler and CommandRule classes';
 
-    private $baseNamespace = "App\Commands";
+    /**
+     * Base namespace for commands
+     */
+    private string $baseNamespace = "App\Commands";
 
     /**
      * Execute the console command.
@@ -50,8 +54,8 @@ class CreateCommand extends Command
             $name,
             $this->baseNamespace,
             [
-                'commandNamespace' => $this->baseNamespace.$this->relativeNamespace($name),
-                'commandName' => $this->elementName($name),
+                'commandNamespace' => $this->baseNamespace.NamespaceUtility::relativeNamespace($name),
+                'commandName' => NamespaceUtility::elementName($name),
             ]
         );
 
@@ -68,8 +72,8 @@ class CreateCommand extends Command
             "{$name}Handler",
             $this->baseNamespace,
             [
-                'handlerNamespace' => $this->baseNamespace.$this->relativeNamespace($name),
-                'commandName' => $this->elementName($name),
+                'handlerNamespace' => $this->baseNamespace.NamespaceUtility::relativeNamespace($name),
+                'commandName' => NamespaceUtility::elementName($name),
             ]
         );
 
@@ -86,22 +90,11 @@ class CreateCommand extends Command
             "{$name}Rule",
             $this->baseNamespace,
             [
-                'handlerNamespace' => $this->baseNamespace.$this->relativeNamespace($name),
-                'commandName' => $this->elementName($name),
+                'handlerNamespace' => $this->baseNamespace.NamespaceUtility::relativeNamespace($name),
+                'commandName' => NamespaceUtility::elementName($name),
             ]
         );
 
         $this->printResult("{$name}Rule.php created", $errors);
-    }
-
-    private function printResult(string $successMessage, array $errors)
-    {
-        if (empty($errors)) {
-            $this->comment($successMessage);
-        } else {
-            foreach ($errors as $error) {
-                $this->error($error);
-            }
-        }
     }
 }
