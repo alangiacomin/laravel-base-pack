@@ -1,0 +1,24 @@
+<?php
+
+namespace {{ Namespace }};
+
+use Alangiacomin\LaravelBasePack\Controllers\Controller;
+use Illuminate\Http\Request;
+
+class {{ Name }}Controller extends Controller
+{
+    public function index()
+    {
+        return view('index');
+    }
+
+    /**
+     * Method
+     */
+    public function method()
+    {
+        return $this->execute(new MyCommand([
+            'var' => $var,
+        ]));
+    }
+}
