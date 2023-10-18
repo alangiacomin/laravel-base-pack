@@ -73,11 +73,15 @@ abstract class CommandHandler extends BusHandler implements ShouldQueue
     protected function evaluateRule(): void
     {
         $ruleClass = $this->busObject->fullName().'Rule';
-        if (class_exists($ruleClass)) {
-            $ruleInstance = (new $ruleClass($this->busObject));
-            if ($ruleInstance instanceof CommandRule) {
-                $ruleInstance->evaluate();
-            }
+
+        try {
+            $ruleInstance = new $ruleClass($this->busObject);
+        } catch (Throwable) {
+            return;
+        }
+
+        if ($ruleInstance instanceof CommandRule) {
+            $ruleInstance->evaluate();
         }
     }
 
