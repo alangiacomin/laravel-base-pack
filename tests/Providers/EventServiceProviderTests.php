@@ -59,6 +59,6 @@ class EventServiceProviderTests extends TestCase
         // Act
         $ret = $this->provider->discoverEventsWithin();
 
-        expect($ret)->toBe(['myBasePath\app\Events']);
+        expect($ret)->toBe(['myBasePath'.DIRECTORY_SEPARATOR.'app'.DIRECTORY_SEPARATOR.'Events']);
     }
 }
