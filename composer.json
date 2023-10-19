@@ -1,5 +1,6 @@
 {
     "name": "alangiacomin/laravel-base-pack",
+    "version": "0.0.1",
     "description": "Laravel base pack",
     "license": "MIT",
     "keywords": [

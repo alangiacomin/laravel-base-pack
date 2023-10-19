@@ -78,7 +78,7 @@ abstract class BusHandler implements ShouldQueue
                 }
 
                 // if async, handle the failure
-                $this->notifyFailures($this->busObject, $ex);
+                $this->notifyFailures($ex);
             }
         }
     }
@@ -130,8 +130,10 @@ abstract class BusHandler implements ShouldQueue
     /**
      * Manage the failed handling.
      * Default keeps handling active, can be overridden.
+     *
+     * @param  Throwable  $ex Catched exception
      */
-    protected function notifyFailures(/* IBusObject $busObject, Throwable $ex */): void
+    protected function notifyFailures(Throwable $ex): void
     {
         $this->isActive = true;
         if (isset($this->busObject)) {

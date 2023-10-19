@@ -19,7 +19,6 @@ use Throwable;
 abstract class CommandHandler extends BusHandler implements ShouldQueue
 {
     use Dispatchable, Queueable, SerializesModels;
-    // use HasBindingInjection;
 
     /**
      * Command constructor
@@ -29,13 +28,12 @@ abstract class CommandHandler extends BusHandler implements ShouldQueue
     public function __construct(IBusObject $busObject)
     {
         $this->busObject = $busObject;
-        // $this->injectProperties();
     }
 
     /**
      * Gets default response, overridable
      *
-     * @return object|null Response after handler execution
+     * @return object|string|null Response after handler execution
      */
     public function getResponse(): object|string|null
     {

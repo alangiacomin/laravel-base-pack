@@ -40,6 +40,20 @@ final class CommandResult
     }
 
     /**
+     * Set command failure
+     */
+    public function setFailure(array|string $errors = []): void
+    {
+        if (is_string($errors)) {
+            $errors = [$errors];
+        }
+
+        $this->success = false;
+        $this->result = $this->defaultResult();
+        $this->errors = $errors;
+    }
+
+    /**
      * Gets the default result data
      */
     private function defaultResult(): object
@@ -53,19 +67,5 @@ final class CommandResult
     private function defaultErrors(): array
     {
         return [];
-    }
-
-    /**
-     * Set command failure
-     */
-    public function setFailure(array|string $errors = []): void
-    {
-        if (is_string($errors)) {
-            $errors = [$errors];
-        }
-
-        $this->success = false;
-        $this->result = $this->defaultResult();
-        $this->errors = $errors;
     }
 }
