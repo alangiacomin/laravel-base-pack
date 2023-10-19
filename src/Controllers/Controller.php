@@ -11,6 +11,7 @@ use Alangiacomin\LaravelBasePack\Traits\HasBindingInjection;
 use Illuminate\Foundation\Auth\Access\AuthorizesRequests;
 use Illuminate\Foundation\Bus\DispatchesJobs;
 use Illuminate\Foundation\Validation\ValidatesRequests;
+use Illuminate\Http\JsonResponse;
 use Illuminate\Routing\Controller as BaseController;
 
 /**
@@ -22,63 +23,11 @@ abstract class Controller extends BaseController
     use HasBindingInjection;
 
     /**
-     * Middleware to apply on methods
-     * Key: the method
-     * Value: array with middleware list
-     */
-    protected array $cfgMiddleware = [];
-
-    /**
-     * Permissions to check allowing method execution
-     * Key: the method
-     * Value: array with permission list
-     */
-    protected array $cfgPermission = [];
-
-    /**
      * Controller constructor
      */
     public function __construct()
     {
         $this->injectProps();
-
-        $middlewares = [
-            ...$this->arrangeCfgMiddleware($this->cfgMiddleware ?? []),
-            ...$this->arrangeCfgMiddleware(
-                array_map(
-                    function ($action) {
-                        return array_map(
-                            function ($perm) {
-                                return "can:$perm->value";
-                            },
-                            $action ?? []
-                        );
-                    },
-                    $this->cfgPermission ?? []
-                )
-            ),
-        ];
-        foreach ($middlewares as $mw => $actions) {
-            $this->middleware($mw)->only($actions);
-        }
-    }
-
-    /**
-     * Arrange middleware list according to laravel format
-     */
-    private function arrangeCfgMiddleware($cfg): array
-    {
-        $middlewares = [];
-        foreach (($cfg ?? []) as $action => $mwList) {
-            foreach ($mwList as $mw) {
-                $middlewares[$mw] = [
-                    ...($middlewares[$mw] ?? []),
-                    $action,
-                ];
-            }
-        }
-
-        return $middlewares;
     }
 
     /**
@@ -103,5 +52,16 @@ abstract class Controller extends BaseController
             'sendCommand',
             ['command' => $command]
         );
+    }
+
+    /**
+     * Converts a {@see CommandResult} to a {@see JsonResponse}
+     *
+     * @param  CommandResult  $result The result
+     * @return JsonResponse The response
+     */
+    protected function jsonResponse(CommandResult $result): JsonResponse
+    {
+        return response()->json($result);
     }
 }
