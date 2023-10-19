@@ -1,6 +1,6 @@
 <?php
 
-namespace Alangiacomin\LaravelBasePack\Tests\Event;
+namespace Alangiacomin\LaravelBasePack\Tests\Events;
 
 use Alangiacomin\LaravelBasePack\Events\Event;
 

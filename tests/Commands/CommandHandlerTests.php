@@ -1,7 +1,8 @@
 <?php
 
-namespace Alangiacomin\LaravelBasePack\Tests\Command;
+namespace Alangiacomin\LaravelBasePack\Tests\Commands;
 
+use Alangiacomin\LaravelBasePack\Bus\Bus;
 use Alangiacomin\LaravelBasePack\Commands\CommandHandler;
 use Alangiacomin\LaravelBasePack\Commands\CommandResult;
 use Alangiacomin\LaravelBasePack\Facades\LaravelBasePackFacade;
@@ -11,6 +12,7 @@ use Alangiacomin\LaravelBasePack\Tests\Mocks\Examples\CommandWithExceptionExampl
 use Alangiacomin\LaravelBasePack\Tests\Mocks\Examples\CommandWithExceptionExampleHandler;
 use Alangiacomin\LaravelBasePack\Tests\Mocks\Examples\CommandWithRuleExample;
 use Alangiacomin\LaravelBasePack\Tests\Mocks\Examples\CommandWithRuleExampleHandler;
+use Alangiacomin\LaravelBasePack\Tests\Mocks\Examples\EventExample;
 use Alangiacomin\LaravelBasePack\Tests\Mocks\Examples\JobExample;
 use Alangiacomin\LaravelBasePack\Tests\Mocks\LaravelBasePackFacadeMock;
 use Alangiacomin\LaravelBasePack\Tests\TestCase;
@@ -23,7 +25,7 @@ class CommandHandlerTests extends TestCase
     /* CONSTRUCTOR */
     /***************/
 
-    public function test_commandHandler_constructor()
+    public function test_constructor()
     {
         // Arrange
         $command = new CommandExample();
@@ -39,7 +41,7 @@ class CommandHandlerTests extends TestCase
     /* GET RESPONSE */
     /****************/
 
-    public function test_commandHandler_getResponse()
+    public function test_getResponse()
     {
         // Arrange
         $command = new CommandExample();
@@ -56,7 +58,7 @@ class CommandHandlerTests extends TestCase
     /* HANDLE */
     /**********/
 
-    public function test_commandHandler_handle_return_type()
+    public function test_handle_return_type()
     {
         // Arrange
         $command = new CommandExample();
@@ -69,7 +71,7 @@ class CommandHandlerTests extends TestCase
         expect($ret)->toBeInstanceOf(CommandResult::class);
     }
 
-    public function test_commandHandler_handle_rule_missing()
+    public function test_handle_rule_missing()
     {
         // Arrange
         $command = new CommandExample();
@@ -82,7 +84,7 @@ class CommandHandlerTests extends TestCase
         expect($ret->success)->toBeTrue();
     }
 
-    public function test_commandHandler_handle_rule_ok()
+    public function test_handle_rule_ok()
     {
         // Arrange
         $command = new CommandWithRuleExample();
@@ -97,7 +99,7 @@ class CommandHandlerTests extends TestCase
         expect($ret->errors)->toBeEmpty();
     }
 
-    public function test_commandHandler_handle_rule_fail()
+    public function test_handle_rule_fail()
     {
         // Arrange
         $command = new CommandWithRuleExample();
@@ -112,7 +114,7 @@ class CommandHandlerTests extends TestCase
         expect($ret->errors)->toContain('Rule is not respected');
     }
 
-    public function test_commandHandler_handle_exception()
+    public function test_handle_exception()
     {
         // Arrange
         $command = new CommandWithExceptionExample();
@@ -126,7 +128,7 @@ class CommandHandlerTests extends TestCase
         expect($ret->errors)->toBe(['This command throws exception']);
     }
 
-    public function test_commandHandler_handle_not_job()
+    public function test_handle_not_job()
     {
         // Arrange
         $command = new CommandExample();
@@ -144,7 +146,7 @@ class CommandHandlerTests extends TestCase
         expect($ret->success)->toBeTrue();
     }
 
-    public function test_commandHandler_handle_job_sync()
+    public function test_handle_job_sync()
     {
         // Arrange
         $command = new CommandExample();
@@ -161,7 +163,7 @@ class CommandHandlerTests extends TestCase
         expect($ret->success)->toBeTrue();
     }
 
-    public function test_commandHandler_handle_job_other()
+    public function test_handle_job_other()
     {
         // Arrange
         $command = new CommandExample();
@@ -176,5 +178,24 @@ class CommandHandlerTests extends TestCase
 
         // Assert
         expect($ret->success)->toBeTrue();
+    }
+
+    /***********/
+    /* PUBLISH */
+    /***********/
+
+    public function test_publish()
+    {
+        $event = new EventExample();
+        $command = new CommandExample();
+        $this->handler = new CommandExampleHandler($command);
+
+        LaravelBasePackFacade::shouldReceive('callStaticWithInjection')->with(
+            Bus::class,
+            'publishEvent',
+            ['event' => $event]
+        )->once();
+
+        $this->handler->publish($event);
     }
 }

@@ -1,21 +1,21 @@
 <?php
 
-namespace Alangiacomin\LaravelBasePack\Tests\Command;
+namespace Alangiacomin\LaravelBasePack\Tests\Bus;
 
-use Alangiacomin\LaravelBasePack\Commands\CommandHandler;
+use Alangiacomin\LaravelBasePack\Bus\BusHandler;
 use Alangiacomin\LaravelBasePack\Tests\TestableCallables;
 use Alangiacomin\LaravelBasePack\Tests\TestableModifiers;
-use ReflectionException;
 
-abstract class CommandHandlerTestable extends CommandHandler
+class BusHandlerTestable extends BusHandler
 {
     use TestableCallables, TestableModifiers;
 
-    /**
-     * @throws ReflectionException
-     */
     public function __call(string $name, array $arguments)
     {
         return $this->callMethod($name, $arguments);
+    }
+
+    protected function execute()
+    {
     }
 }

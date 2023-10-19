@@ -1,17 +1,23 @@
 <?php
 
-namespace Alangiacomin\LaravelBasePack\Tests\Mocks\Examples;
+namespace Alangiacomin\LaravelBasePack\Tests\Commands;
 
-use Alangiacomin\LaravelBasePack\Events\EventHandler;
+use Alangiacomin\LaravelBasePack\Commands\CommandHandler;
 use Alangiacomin\LaravelBasePack\Tests\TestableCallables;
 use Alangiacomin\LaravelBasePack\Tests\TestableModifiers;
 use ReflectionException;
 
-class EventExampleHandler extends EventHandler
+abstract class CommandHandlerTestable extends CommandHandler
 {
     use TestableCallables, TestableModifiers;
 
-    public EventExample $event;
+    public $tries;
+
+    public $maxExceptions;
+
+    public $failOnTimeout;
+
+    public $timeout;
 
     /**
      * @throws ReflectionException
@@ -19,9 +25,5 @@ class EventExampleHandler extends EventHandler
     public function __call(string $name, array $arguments)
     {
         return $this->callMethod($name, $arguments);
-    }
-
-    protected function execute()
-    {
     }
 }

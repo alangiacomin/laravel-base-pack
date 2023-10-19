@@ -27,7 +27,7 @@ abstract class Controller extends BaseController
      */
     public function __construct()
     {
-        $this->injectProps();
+        // $this->injectProps();
     }
 
     /**

@@ -1,17 +1,15 @@
 <?php
 
-namespace Alangiacomin\LaravelBasePack\Tests\Mocks\Examples;
+namespace Alangiacomin\LaravelBasePack\Tests\Events;
 
 use Alangiacomin\LaravelBasePack\Events\EventHandler;
 use Alangiacomin\LaravelBasePack\Tests\TestableCallables;
 use Alangiacomin\LaravelBasePack\Tests\TestableModifiers;
 use ReflectionException;
 
-class EventExampleHandler extends EventHandler
+class EventHandlerTestable extends EventHandler
 {
     use TestableCallables, TestableModifiers;
-
-    public EventExample $event;
 
     /**
      * @throws ReflectionException

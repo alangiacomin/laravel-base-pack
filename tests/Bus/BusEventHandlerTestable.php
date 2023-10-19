@@ -1,19 +1,18 @@
 <?php
 
-namespace Alangiacomin\LaravelBasePack\Tests\Event;
+namespace Alangiacomin\LaravelBasePack\Tests\Bus;
 
 use Alangiacomin\LaravelBasePack\Events\EventHandler;
+use Alangiacomin\LaravelBasePack\Tests\Mocks\Examples\EventExample;
 use Alangiacomin\LaravelBasePack\Tests\TestableCallables;
 use Alangiacomin\LaravelBasePack\Tests\TestableModifiers;
-use ReflectionException;
 
-class EventHandlerTestable extends EventHandler
+class BusEventHandlerTestable extends EventHandler
 {
     use TestableCallables, TestableModifiers;
 
-    /**
-     * @throws ReflectionException
-     */
+    public EventExample $event;
+
     public function __call(string $name, array $arguments)
     {
         return $this->callMethod($name, $arguments);

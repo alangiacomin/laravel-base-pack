@@ -40,10 +40,10 @@
     },
     "scripts": {
         "pint": "./vendor/bin/pint",
-        "test": "./vendor/bin/pest --no-coverage",
+        "test": "./vendor/bin/pest --parallel --no-coverage",
         "test-coverage": [
             "@putenv XDEBUG_MODE=coverage",
-            "./vendor/bin/pest --coverage --coverage-html coverage"
+            "./vendor/bin/pest --parallel --coverage --coverage-html coverage"
         ]
     },
     "config": {

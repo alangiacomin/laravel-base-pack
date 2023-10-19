@@ -24,7 +24,7 @@ class ControllerTests extends TestCase
     /* CONSTRUCTOR */
     /***************/
 
-    public function test_controller_constructor_default()
+    public function test_constructor_default()
     {
         $this->shouldNotThrowException(fn () => new ControllerTestable());
     }
@@ -33,7 +33,7 @@ class ControllerTests extends TestCase
     /* EXECUTE */
     /***********/
 
-    public function test_controller_execute_default()
+    public function test_execute_default()
     {
         $command = new CommandExample();
         LaravelBasePackFacade::shouldReceive('callStaticWithInjection')->with(
@@ -51,7 +51,7 @@ class ControllerTests extends TestCase
     /* SEND */
     /********/
 
-    public function test_controller_send_default()
+    public function test_send_default()
     {
         $command = new CommandExample();
         LaravelBasePackFacade::shouldReceive('callStaticWithInjection')->with(
@@ -67,7 +67,7 @@ class ControllerTests extends TestCase
     /* JSON RESPONSE */
     /*****************/
 
-    public function test_controller_jsonResponse_default()
+    public function test_jsonResponse_default()
     {
         $result = new CommandResult();
 
@@ -76,7 +76,7 @@ class ControllerTests extends TestCase
         expect($json->getContent())->toBe('{"success":true,"result":{},"errors":[]}');
     }
 
-    public function test_controller_jsonResponse_success_string()
+    public function test_jsonResponse_success_string()
     {
         $result = new CommandResult();
         $result->setSuccess('OK');
@@ -86,7 +86,7 @@ class ControllerTests extends TestCase
         expect($json->getContent())->toBe('{"success":true,"result":"OK","errors":[]}');
     }
 
-    public function test_controller_jsonResponse_success_object()
+    public function test_jsonResponse_success_object()
     {
         $obj = new stdClass();
         $obj->status = 'OK';
@@ -98,7 +98,7 @@ class ControllerTests extends TestCase
         expect($json->getContent())->toBe('{"success":true,"result":{"status":"OK"},"errors":[]}');
     }
 
-    public function test_controller_jsonResponse_error_string()
+    public function test_jsonResponse_error_string()
     {
         $result = new CommandResult();
         $result->setFailure('KO');
@@ -108,7 +108,7 @@ class ControllerTests extends TestCase
         expect($json->getContent())->toBe('{"success":false,"result":{},"errors":["KO"]}');
     }
 
-    public function test_controller_jsonResponse_error_array()
+    public function test_jsonResponse_error_array()
     {
         $arr = ['KO', 'Multiple', 'errors'];
         $result = new CommandResult();

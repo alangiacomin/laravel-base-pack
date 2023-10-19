@@ -2,7 +2,7 @@
 
 namespace Alangiacomin\LaravelBasePack\Tests\Mocks\Examples;
 
-use Alangiacomin\LaravelBasePack\Tests\Command\CommandHandlerTestable;
+use Alangiacomin\LaravelBasePack\Tests\Commands\CommandHandlerTestable;
 use Exception;
 
 class CommandWithExceptionExampleHandler extends CommandHandlerTestable

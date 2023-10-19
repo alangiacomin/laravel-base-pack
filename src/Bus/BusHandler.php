@@ -4,6 +4,7 @@ namespace Alangiacomin\LaravelBasePack\Bus;
 
 use Alangiacomin\LaravelBasePack\Commands\CommandHandler;
 use Alangiacomin\LaravelBasePack\Events\EventHandler;
+use Alangiacomin\LaravelBasePack\Exceptions\BusException;
 use Alangiacomin\LaravelBasePack\Facades\LaravelBasePackFacade;
 use Alangiacomin\LaravelBasePack\Traits\HasBindingInjection;
 use Exception;
@@ -51,13 +52,11 @@ abstract class BusHandler implements ShouldQueue
      *
      * @throws Throwable
      */
-    final protected function handleObject(IBusObject $busObject = null): void
+    final protected function handleObject(IBusObject $busObject): void
     {
-        $this->injectProps();
+        // $this->injectProps();
 
-        if (isset($busObject)) {
-            $this->busObject = $busObject;
-        }
+        $this->busObject = $busObject;
 
         $retry = 0;
 
@@ -104,18 +103,18 @@ abstract class BusHandler implements ShouldQueue
     {
         if ($this instanceof CommandHandler) {
             if (!property_exists($this, 'command')) {
-                exit($this->busObject->fullName().": 'command' property must be defined");
+                throw new BusException($this->busObject->fullName().": 'command' property must be defined");
             }
 
             $this->command = $this->busObject;
         } elseif ($this instanceof EventHandler) {
             if (!property_exists($this, 'event')) {
-                exit($this->busObject->fullName().": 'event' property must be defined");
+                throw new BusException($this->busObject->fullName().": 'event' property must be defined");
             }
 
             $this->event = $this->busObject;
         } else {
-            exit($this->busObject->fullName().": Handler must be a 'CommandHandler' or an 'EventHandler'");
+            throw new BusException(get_class($this).": Handler must be a 'CommandHandler' or an 'EventHandler'");
         }
     }
 
