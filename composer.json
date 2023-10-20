@@ -19,14 +19,14 @@
     ],
     "require": {
         "php": "^8.1",
-        "alangiacomin/php-utils": "^1.0"
+        "alangiacomin/php-utils": "^1.1"
     },
     "require-dev": {
-        "laravel/framework": "^10.25",
+        "laravel/framework": "^10.28",
         "laravel/pint": "^1.13",
         "laravel/sanctum": "^3.3",
         "orchestra/testbench": "^8.13",
-        "pestphp/pest": "^2.23"
+        "pestphp/pest": "^2.24"
     },
     "autoload": {
         "psr-4": {

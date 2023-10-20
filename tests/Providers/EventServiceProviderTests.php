@@ -3,6 +3,7 @@
 namespace Alangiacomin\LaravelBasePack\Tests\Providers;
 
 use Alangiacomin\LaravelBasePack\Tests\TestCase;
+use Alangiacomin\PhpUtils\Path;
 use Illuminate\Contracts\Foundation\Application;
 use Mockery\MockInterface;
 
@@ -59,6 +60,6 @@ class EventServiceProviderTests extends TestCase
         // Act
         $ret = $this->provider->discoverEventsWithin();
 
-        expect($ret)->toBe(['myBasePath'.DIRECTORY_SEPARATOR.'app'.DIRECTORY_SEPARATOR.'Events']);
+        expect($ret)->toBe([Path::combine('myBasePath', 'app', 'Events')]);
     }
 }
