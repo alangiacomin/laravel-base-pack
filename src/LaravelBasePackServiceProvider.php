@@ -2,10 +2,15 @@
 
 namespace Alangiacomin\LaravelBasePack;
 
+use Alangiacomin\LaravelBasePack\Console\Commands\Docker;
+use Alangiacomin\LaravelBasePack\Console\Commands\Install;
+use Alangiacomin\LaravelBasePack\Console\Commands\React;
 use AlanGiacomin\LaravelBasePack\Core\ClassUtility;
 use AlanGiacomin\LaravelBasePack\QueueObject\Contracts\IMessageBus;
 use AlanGiacomin\LaravelBasePack\QueueObject\MessageBus;
 use AlanGiacomin\LaravelBasePack\Repositories\IRepository;
+use Composer\InstalledVersions;
+use Illuminate\Foundation\Console\AboutCommand;
 use Illuminate\Support\Arr;
 use Illuminate\Support\ServiceProvider;
 use RecursiveDirectoryIterator;
@@ -30,6 +35,23 @@ class LaravelBasePackServiceProvider extends ServiceProvider
      */
     public function boot(): void
     {
+        AboutCommand::add(
+            'Laravel Base Pack',
+            fn () => [
+                'Version' => InstalledVersions::getPrettyVersion('alangiacomin/laravel-base-pack'),
+            ]
+        );
+
+        if ($this->app->runningInConsole()) {
+            $this->commands(
+                [
+                    Install::class,
+                    Docker::class,
+                    React::class,
+                ]
+            );
+        }
+
         $this->bootFromFiles();
     }
 
