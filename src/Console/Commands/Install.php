@@ -59,6 +59,14 @@ class Install extends Command implements PromptsForMissingInput
             );
         }
 
+        if (!str_contains(file_get_contents(config_path('auth.php')), 'App\Models\User\User::class')) {
+            $this->replaceInFile(
+                config_path('auth.php'),
+                ['App\Models\User::class'],
+                ['App\Models\User\User::class'],
+            );
+        }
+
         if (!str_contains(file_get_contents(database_path('seeders/DatabaseSeeder.php')), '(new UserFactory())')) {
             $this->replaceInFile(
                 database_path('seeders/DatabaseSeeder.php'),

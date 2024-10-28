@@ -3,8 +3,8 @@
     <head>
         @viteReactRefresh
         @vite([
-            'resources/css/app.css',
-            'resources/js/app.jsx'
+            'resources/css/app.scss',
+            'resources/js/index.jsx'
         ])
 
     </head>
