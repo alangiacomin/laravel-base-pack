@@ -23,7 +23,7 @@
     "require-dev": {
         "laravel/framework": "v11.29.0",
         "laravel/pint": "v1.18.1",
-        "phpunit/phpunit": "11.4.2",
+        "phpunit/phpunit": "11.4.3",
         "orchestra/testbench": "v9.5.2"
     },
     "autoload": {
