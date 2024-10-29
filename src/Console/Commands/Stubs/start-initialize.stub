@@ -3,6 +3,6 @@
 sort -u -t '=' -k 1,1 .env.cm .env > .env.temp
 cp .env.temp .env
 
-php artisan migrate --force
+php artisan migrate --seed --force
 
 php artisan optimize

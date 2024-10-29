@@ -71,7 +71,8 @@ class Install extends Command implements PromptsForMissingInput
             $this->replaceInFile(
                 database_path('seeders/DatabaseSeeder.php'),
                 ['User::factory()'],
-                ['(new \App\Models\User\UserFactory())'],
+                ['if (User::all()->where(\'email\', \'test@example.com\')->count() == 0)'.PHP_EOL.
+                    '(new \App\Models\User\UserFactory())'],
             );
         }
 

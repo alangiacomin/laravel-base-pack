@@ -28,15 +28,15 @@ COPY . /var/www/html
 # Set the working directory
 WORKDIR /var/www/html
 
+# Frontend bundle
+RUN npm ci
+RUN npm run build
+
 # Install project dependencies
 RUN composer install
 
 # BE test
 RUN php artisan test
-
-# Frontend bundle
-RUN npm ci
-RUN npm run build
 
 # App startup and entrypoint
 COPY ./start-initialize /usr/local/bin/start-initialize
