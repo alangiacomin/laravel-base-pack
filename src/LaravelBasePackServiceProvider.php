@@ -42,6 +42,10 @@ class LaravelBasePackServiceProvider extends ServiceProvider
             ]
         );
 
+        $this->publishes([
+            __DIR__.'/../src/Console/Commands/Publish' => base_path(),
+        ], 'basepack');
+
         if ($this->app->runningInConsole()) {
             $this->commands(
                 [

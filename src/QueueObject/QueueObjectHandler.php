@@ -47,7 +47,7 @@ abstract class QueueObjectHandler implements ShouldQueue
         return [1, 1, 5, 1, 1, 5, 1, 1];
     }
 
-    public function manageFailed(Throwable $exception): void {}
+    protected function manageFailed(Throwable $exception): void {}
 
     /**
      * @throws Exception

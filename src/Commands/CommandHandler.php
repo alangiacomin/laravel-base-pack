@@ -35,7 +35,7 @@ abstract class CommandHandler extends QueueObjectHandler
      *
      * @return object|string|null Response after handler execution
      */
-    public function getResponse(): object|string|null
+    protected function getResponse(): object|string|null
     {
         return null;
     }

@@ -50,11 +50,41 @@ abstract class Command extends ConsoleCommand
         }
     }
 
+    /**
+     * Delete a file
+     *
+     * @param  string  $file  File to delete
+     */
     protected function deleteFile(string $file): void
     {
         if (file_exists($file)) {
             unlink($file);
         }
+    }
+
+    /**
+     * Delete a directory
+     *
+     * @param  string  $dir  Dir to delete
+     * @param  bool  $force  Force deletion if folder not empty
+     */
+    protected function deleteDir(string $dir, bool $force = false): void
+    {
+        if (!is_dir($dir)) {
+            return;
+        }
+
+        if ($force) {
+            $files = array_diff(scandir($dir), ['.', '..']);
+
+            foreach ($files as $file) {
+                (is_dir("$dir/$file"))
+                    ? $this->deleteDir("$dir/$file", $force)
+                    : $this->deleteFile("$dir/$file");
+            }
+        }
+
+        rmdir($dir);
     }
 
     protected function copyFile(string $src, string $dest, array $search = [], array $replace = []): void
@@ -95,5 +125,16 @@ abstract class Command extends ConsoleCommand
         if (!is_dir($dir)) {
             mkdir($dir);
         }
+    }
+
+    protected function publishProvider(string $provider): void
+    {
+        $this->call('vendor:publish', ['--provider' => $provider]);
+    }
+
+    protected function finish(): void
+    {
+        $this->call('migrate');
+        $this->call('optimize:clear');
     }
 }

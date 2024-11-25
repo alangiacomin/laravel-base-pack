@@ -4,6 +4,7 @@ namespace Alangiacomin\LaravelBasePack\Console\Commands;
 
 use Alangiacomin\LaravelBasePack\Console\Commands\Core\Command;
 use Illuminate\Contracts\Console\PromptsForMissingInput;
+use Symfony\Component\Process\Process;
 
 class Install extends Command implements PromptsForMissingInput
 {
@@ -26,36 +27,68 @@ class Install extends Command implements PromptsForMissingInput
      */
     public function handleCommand(): void
     {
-        $this->refactorOriginals();
+        $this->call('migrate:fresh');
+
+        $this->permissions();
+        $this->refactorBackend();
+        $this->refactorFrontend();
+
+        $this->call('vendor:publish', ['--tag' => 'basepack']);
+        $this->call('migrate');
+        $this->call('db:seed');
+
+        $this->finish();
 
         $this->newLine();
     }
 
-    private function refactorOriginals(): void
+    private function permissions(): void
+    {
+        $this->call('vendor:publish', [
+            '--provider' => 'Spatie\RouteAttributes\RouteAttributesServiceProvider',
+            '--tag' => 'config',
+        ]);
+        $this->call('vendor:publish', [
+            '--provider' => 'Spatie\Permission\PermissionServiceProvider',
+        ]);
+
+        //        app_path('Http/Controllers') => ['middleware' => ['web']],
+    }
+
+    private function refactorBackend(): void
     {
         $this->newLine();
         $this->comment('refactorOriginals');
 
         $this->deleteFile(app_path('Http/Controllers/Controller.php'));
+        $this->deleteFile(app_path('Models/User.php'));
+        $this->deleteFile(base_path('routes/web.php'));
+        $this->deleteFile(database_path('seeders/DatabaseSeeder.php'));
+        $this->deleteDir(database_path('factories'), true);
 
-        $this->moveFile(
-            app_path('Models/User.php'),
-            app_path('Models/User/User.php'),
-            ['namespace App\Models;'],
-            ['namespace App\Models\User;']
+        $this->replaceInFile(
+            base_path('composer.json'),
+            ['^'],
+            ['']
         );
 
-        $this->moveFile(
-            database_path('factories/UserFactory.php'),
-            app_path('Models/User/UserFactory.php'),
-            ['namespace Database\Factories;'],
-            ['namespace App\Models\User;']
+        $this->replaceInFile(
+            base_path('composer.json'),
+            ['\"php artisan pail --timeout=0\"'],
+            [''],
         );
-        if (!str_contains(file_get_contents(app_path('Models/User/UserFactory.php')), '$model = User::class')) {
+
+        $this->replaceInFile(
+            base_path('composer.json'),
+            ['"php": "^8.2"', '"php": "8.2"', '"php": "8.3"'],
+            ['"php": "^8.3"', '"php": "^8.3"', '"php": "^8.3"'],
+        );
+
+        if (!str_contains(file_get_contents(config_path('route-attributes.php')), "app_path('Http/Controllers') => ['middleware' => ['web']]")) {
             $this->replaceInFile(
-                app_path('Models/User/UserFactory.php'),
-                ['protected static ?string $password;'],
-                ['protected static ?string $password;'.PHP_EOL.PHP_EOL.'    protected $model = User::class;'],
+                config_path('route-attributes.php'),
+                ["app_path('Http/Controllers'),"],
+                ["app_path('Http/Controllers') => ['middleware' => ['web']]"],
             );
         }
 
@@ -64,15 +97,6 @@ class Install extends Command implements PromptsForMissingInput
                 config_path('auth.php'),
                 ['App\Models\User::class'],
                 ['App\Models\User\User::class'],
-            );
-        }
-
-        if (!str_contains(file_get_contents(database_path('seeders/DatabaseSeeder.php')), '(new UserFactory())')) {
-            $this->replaceInFile(
-                database_path('seeders/DatabaseSeeder.php'),
-                ['User::factory()'],
-                ['if (User::all()->where(\'email\', \'test@example.com\')->count() == 0)'.PHP_EOL.
-                    '(new \App\Models\User\UserFactory())'],
             );
         }
 
@@ -88,5 +112,62 @@ class Install extends Command implements PromptsForMissingInput
                 ],
                 file_get_contents(base_path('phpunit.xml'))
             ));
+    }
+
+    private function refactorFrontend(): void
+    {
+        $this->comment('npm install');
+        $this->newLine();
+
+        $process = Process::fromShellCommandline('npm install --save-dev'.
+            ' @eslint/compat@1.2.2'.
+            ' @eslint/eslintrc@3.1.0'.
+            ' @eslint/js@9.13.0'.
+            ' axios@1.7.7'.
+            ' eslint@9.13.0'.
+            ' eslint-plugin-react@7.37.2'.
+            ' eslint-plugin-react-hooks@5.0.0'.
+            ' sass@1.77.6'.
+            ' vite@5.4.10'
+        );
+        $process->run();
+        echo $process->getOutput();
+
+        $process = Process::fromShellCommandline('npm install --save'.
+            ' @popperjs/core@2.11.8'.
+            ' @vitejs/plugin-react@4.3.3'.
+            ' bootstrap@5.3.3'.
+            ' classnames@2.5.1'.
+            ' prop-types@15.8.1'.
+            ' react@18.3.1'.
+            ' react-dom@18.3.1'.
+            ' react-router-dom@6.28.0'
+        );
+        $process->run();
+        echo $process->getOutput();
+
+        $process = Process::fromShellCommandline('npm uninstall'.
+            ' autoprefixer'.
+            ' postcss'.
+            ' tailwindcss'
+        );
+        $process->run();
+        echo $process->getOutput();
+
+        $this->replaceInFile(
+            base_path('package.json'),
+            ['^'],
+            ['']
+        );
+
+        $this->comment('view');
+        $this->newLine();
+
+        $this->deleteDir(resource_path('js'), true);
+        $this->deleteDir(resource_path('css'), true);
+
+        $this->deleteFile(base_path('postcss.config.js'));
+        $this->deleteFile(base_path('tailwind.config.js'));
+        $this->deleteFile(base_path('vite.config.js'));
     }
 }
