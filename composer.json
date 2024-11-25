@@ -21,7 +21,7 @@
         "alangiacomin/php-utils": "v1.2.0"
     },
     "require-dev": {
-        "laravel/framework": "v11.30.0",
+        "laravel/framework": "v11.33.2",
         "laravel/pint": "v1.18.1",
         "phpunit/phpunit": "11.4.3",
         "orchestra/testbench": "v9.5.2"
