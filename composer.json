@@ -22,7 +22,7 @@
     },
     "require-dev": {
         "laravel/framework": "v11.30.0",
-        "laravel/pint": "v1.18.1",
+        "laravel/pint": "v1.18.2",
         "phpunit/phpunit": "11.4.3",
         "orchestra/testbench": "v9.5.2"
     },
