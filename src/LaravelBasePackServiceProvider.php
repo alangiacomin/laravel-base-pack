@@ -3,6 +3,7 @@
 namespace Alangiacomin\LaravelBasePack;
 
 use Alangiacomin\LaravelBasePack\Console\Commands\CreateCommand;
+use Alangiacomin\LaravelBasePack\Console\Commands\CreateEvent;
 use Alangiacomin\LaravelBasePack\Console\Commands\Docker;
 use Alangiacomin\LaravelBasePack\Console\Commands\Install;
 use AlanGiacomin\LaravelBasePack\Core\ClassUtility;
@@ -52,6 +53,7 @@ class LaravelBasePackServiceProvider extends ServiceProvider
                     Install::class,
                     Docker::class,
                     CreateCommand::class,
+                    CreateEvent::class,
                 ]
             );
         }
