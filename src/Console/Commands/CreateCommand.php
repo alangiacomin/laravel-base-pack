@@ -37,7 +37,7 @@ class CreateCommand extends Command implements PromptsForMissingInput
 
         if (!empty($relDir)) {
             $this->relNamespace = '\\'.$relDir;
-            mkdir(app_path('Commands'.$this->relNamespace), recursive: true);
+            $this->mkdirIfMissing(app_path('Commands'.$this->relNamespace));
         }
 
         $this->createCommand();

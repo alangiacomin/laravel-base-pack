@@ -123,7 +123,7 @@ abstract class Command extends ConsoleCommand
     protected function mkdirIfMissing(string $dir): void
     {
         if (!is_dir($dir)) {
-            mkdir($dir);
+            mkdir($dir, recursive: true);
         }
     }
 
