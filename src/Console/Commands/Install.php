@@ -51,8 +51,6 @@ class Install extends Command implements PromptsForMissingInput
         $this->call('vendor:publish', [
             '--provider' => 'Spatie\Permission\PermissionServiceProvider',
         ]);
-
-        //        app_path('Http/Controllers') => ['middleware' => ['web']],
     }
 
     private function refactorBackend(): void
