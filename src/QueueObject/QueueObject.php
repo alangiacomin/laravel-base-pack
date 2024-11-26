@@ -34,6 +34,7 @@ abstract class QueueObject implements IQueueObject
             'failOnTimeout',
             'timeout',
             'middleware',
+            'queue',
         ];
         if (in_array($name, $laravelProps)) {
             return;
