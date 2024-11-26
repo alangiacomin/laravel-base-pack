@@ -2,9 +2,9 @@
 
 namespace Alangiacomin\LaravelBasePack;
 
+use Alangiacomin\LaravelBasePack\Console\Commands\CreateCommand;
 use Alangiacomin\LaravelBasePack\Console\Commands\Docker;
 use Alangiacomin\LaravelBasePack\Console\Commands\Install;
-use Alangiacomin\LaravelBasePack\Console\Commands\React;
 use AlanGiacomin\LaravelBasePack\Core\ClassUtility;
 use AlanGiacomin\LaravelBasePack\QueueObject\Contracts\IMessageBus;
 use AlanGiacomin\LaravelBasePack\QueueObject\MessageBus;
@@ -51,7 +51,7 @@ class LaravelBasePackServiceProvider extends ServiceProvider
                 [
                     Install::class,
                     Docker::class,
-                    React::class,
+                    CreateCommand::class,
                 ]
             );
         }
