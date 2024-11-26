@@ -16,8 +16,15 @@ abstract class QueueObject implements IQueueObject
     /**
      * Object constructor setting {@see id}
      */
-    public function __construct(/*array|object|null $props = null*/)
+    public function __construct(array|object|null $props = null)
     {
+        if (isset($props)) {
+            $props = $this->toArray($props);
+            foreach ($props as $key => $value) {
+                $this->$key = $value;
+            }
+        }
+
         $this->assignNewId();
     }
 
@@ -51,6 +58,15 @@ abstract class QueueObject implements IQueueObject
     public function __set($name, $value)
     {
         throw new BasePackException("Property '$name' not writeable.");
+    }
+
+    public function toArray(object|array $obj): array
+    {
+        if (is_object($obj)) {
+            return get_object_vars($obj);
+        }
+
+        return $obj;
     }
 
     final public function clone(): self

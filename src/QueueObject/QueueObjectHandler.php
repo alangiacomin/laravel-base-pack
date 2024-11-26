@@ -9,6 +9,7 @@ use AlanGiacomin\LaravelBasePack\Events\EventHandler;
 use AlanGiacomin\LaravelBasePack\Exceptions\BasePackException;
 use AlanGiacomin\LaravelBasePack\QueueObject\Contracts\IMessageBus;
 use AlanGiacomin\LaravelBasePack\QueueObject\Contracts\IQueueObject;
+use Alangiacomin\LaravelBasePack\Traits\HasBindingInjection;
 use Exception;
 use Illuminate\Contracts\Queue\ShouldQueue;
 use Illuminate\Foundation\Queue\Queueable;
@@ -17,6 +18,7 @@ use Throwable;
 
 abstract class QueueObjectHandler implements ShouldQueue
 {
+    use HasBindingInjection;
     use InteractsWithQueue;
     use Queueable;
 
@@ -32,7 +34,9 @@ abstract class QueueObjectHandler implements ShouldQueue
 
     public function __construct(
         protected IMessageBus $messageBus
-    ) {}
+    ) {
+        $this->injectProps();
+    }
 
     /**
      * Execute the command or event body
