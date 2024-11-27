@@ -15,6 +15,7 @@ use Exception;
 use Illuminate\Contracts\Queue\ShouldQueue;
 use Illuminate\Foundation\Queue\Queueable;
 use Illuminate\Queue\InteractsWithQueue;
+use Illuminate\Support\Facades\DB;
 use Throwable;
 
 abstract class QueueObjectHandler implements ShouldQueue
@@ -53,7 +54,7 @@ abstract class QueueObjectHandler implements ShouldQueue
     protected function manageFailed(Throwable $exception): void {}
 
     /**
-     * @throws Exception
+     * @throws Throwable
      */
     final protected function handleObject(): void
     {
@@ -68,12 +69,27 @@ abstract class QueueObjectHandler implements ShouldQueue
         if ($isSync) {
             $this->tries = 1;
             try {
-                $this->execute();
+                $this->executeWithinTransaction();
             } catch (Throwable $e) {
                 $this->failed($e);
             }
         } else {
+            $this->executeWithinTransaction();
+        }
+    }
+
+    /**
+     * Safe execution within a transaction
+     */
+    final protected function executeWithinTransaction(): void
+    {
+        try {
+            DB::beginTransaction();
             $this->execute();
+            DB::commit();
+        } catch (Throwable $e) {
+            DB::rollBack();
+            throw $e;
         }
     }
 
