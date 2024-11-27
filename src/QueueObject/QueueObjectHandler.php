@@ -3,15 +3,11 @@
 namespace AlanGiacomin\LaravelBasePack\QueueObject;
 
 use AlanGiacomin\LaravelBasePack\Commands\Command;
-use AlanGiacomin\LaravelBasePack\Commands\CommandHandler;
 use AlanGiacomin\LaravelBasePack\Commands\Contracts\ICommand;
 use AlanGiacomin\LaravelBasePack\Events\Contracts\IEvent;
 use AlanGiacomin\LaravelBasePack\Events\Event;
-use AlanGiacomin\LaravelBasePack\Events\EventHandler;
-use AlanGiacomin\LaravelBasePack\Exceptions\BasePackException;
 use AlanGiacomin\LaravelBasePack\QueueObject\Contracts\IMessageBus;
 use AlanGiacomin\LaravelBasePack\QueueObject\Contracts\IQueueObject;
-use Exception;
 use Illuminate\Contracts\Queue\ShouldQueue;
 use Illuminate\Foundation\Queue\Queueable;
 use Illuminate\Queue\InteractsWithQueue;
@@ -64,8 +60,6 @@ abstract class QueueObjectHandler implements ShouldQueue
         $queue = $isJob ? $this->job->getQueue() : null;
         $isSync = !$isJob || $queue == 'sync';
 
-        $this->setTypedObject();
-
         if ($isSync) {
             $this->tries = 1;
             try {
@@ -106,29 +100,5 @@ abstract class QueueObjectHandler implements ShouldQueue
     final protected function send(ICommand $command): void
     {
         $this->messageBus->dispatch($command);
-    }
-
-    /**
-     * Sets generic bus object as the specific typed object managed by the handler
-     *
-     * @throws Exception
-     */
-    private function setTypedObject(): void
-    {
-        if ($this instanceof CommandHandler) {
-            if (!property_exists($this, 'command')) {
-                throw new BasePackException($this->queueObject->fullName().": 'command' property must be defined");
-            }
-
-            $this->command = $this->queueObject;
-        } elseif ($this instanceof EventHandler) {
-            if (!property_exists($this, 'event')) {
-                throw new BasePackException($this->queueObject->fullName().": 'event' property must be defined");
-            }
-
-            $this->event = $this->queueObject;
-        } else {
-            throw new BasePackException(get_class($this).": Handler must be a 'CommandHandler' or an 'EventHandler'");
-        }
     }
 }

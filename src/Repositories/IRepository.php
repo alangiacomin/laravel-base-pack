@@ -2,4 +2,9 @@
 
 namespace AlanGiacomin\LaravelBasePack\Repositories;
 
-interface IRepository {}
+use AlanGiacomin\LaravelBasePack\Models\Contracts\IModel;
+
+interface IRepository
+{
+    public function findById(int $id): ?IModel;
+}
