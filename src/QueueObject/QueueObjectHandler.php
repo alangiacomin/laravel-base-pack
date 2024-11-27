@@ -37,12 +37,6 @@ abstract class QueueObjectHandler implements ShouldQueue
      */
     protected IMessageBus $messageBus;
 
-    //    public function __construct()
-    //    {
-    //        // $this->injectProps();
-    //        $this->messageBus = app(IMessageBus::class);
-    //    }
-
     /**
      * Execute the command or event body
      */

@@ -10,7 +10,6 @@ use Spatie\Permission\Traits\HasRoles;
 
 class User extends Authenticatable
 {
-    /** @use HasFactory<\Database\Factories\UserFactory> */
     use HasFactory, HasRoles, Notifiable;
 
     protected $guard_name = 'web';
@@ -43,23 +42,6 @@ class User extends Authenticatable
         'assigned_roles',
         'assigned_perms',
     ];
-
-    protected $with = [
-        // 'permissions',
-        // 'roles',
-    ];
-
-    //    public function getPermsAttribute()
-    //    {
-    //        $thisUser = clone $this;
-    //        return $thisUser->getAllPermissions()->pluck('name');
-    //    }
-
-    //    public function permission(): Attribute {
-    //        return Attribute::make(
-    //            get: fn() => "qui permessi",
-    //        );
-    //    }
 
     public function assignedRoles(): Attribute
     {
