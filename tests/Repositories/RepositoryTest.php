@@ -13,6 +13,7 @@ describe('default', function () {
     });
 
     it('should return null forced', function () {
+        /** @noinspection PhpRedundantOptionalArgumentInspection */
         $result = $this->repository->default(true);
         expect($result)->toBeNull();
     });

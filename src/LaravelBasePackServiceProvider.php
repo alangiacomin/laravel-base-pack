@@ -1,12 +1,12 @@
 <?php
 
-namespace Alangiacomin\LaravelBasePack;
+namespace AlanGiacomin\LaravelBasePack;
 
-use Alangiacomin\LaravelBasePack\Console\Commands\CreateCommand;
-use Alangiacomin\LaravelBasePack\Console\Commands\CreateController;
-use Alangiacomin\LaravelBasePack\Console\Commands\CreateEvent;
-use Alangiacomin\LaravelBasePack\Console\Commands\Docker;
-use Alangiacomin\LaravelBasePack\Console\Commands\Install;
+use AlanGiacomin\LaravelBasePack\Console\Commands\CreateCommand;
+use AlanGiacomin\LaravelBasePack\Console\Commands\CreateController;
+use AlanGiacomin\LaravelBasePack\Console\Commands\CreateEvent;
+use AlanGiacomin\LaravelBasePack\Console\Commands\Docker;
+use AlanGiacomin\LaravelBasePack\Console\Commands\Install;
 use AlanGiacomin\LaravelBasePack\Core\ClassUtility;
 use AlanGiacomin\LaravelBasePack\QueueObject\Contracts\IMessageBus;
 use AlanGiacomin\LaravelBasePack\QueueObject\MessageBus;

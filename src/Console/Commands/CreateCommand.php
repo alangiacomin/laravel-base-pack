@@ -1,8 +1,8 @@
 <?php
 
-namespace Alangiacomin\LaravelBasePack\Console\Commands;
+namespace AlanGiacomin\LaravelBasePack\Console\Commands;
 
-use Alangiacomin\LaravelBasePack\Console\Commands\Core\Command;
+use AlanGiacomin\LaravelBasePack\Console\Commands\Core\Command;
 use Illuminate\Contracts\Console\PromptsForMissingInput;
 
 class CreateCommand extends Command implements PromptsForMissingInput
@@ -48,7 +48,7 @@ class CreateCommand extends Command implements PromptsForMissingInput
     private function createCommand(): void
     {
         $this->newLine();
-        $this->comment("Command: {$this->commandName}");
+        $this->comment("Command: $this->commandName");
 
         $filePath = app_path('Commands'.$this->relNamespace.'/'.$this->commandName.'.php');
         $stubPath = __DIR__.'/stubs/Commands/Stub.php.stub';

@@ -2,14 +2,15 @@
 
 namespace AlanGiacomin\LaravelBasePack\QueueObject;
 
+use AlanGiacomin\LaravelBasePack\Commands\Command;
 use AlanGiacomin\LaravelBasePack\Commands\CommandHandler;
 use AlanGiacomin\LaravelBasePack\Commands\Contracts\ICommand;
 use AlanGiacomin\LaravelBasePack\Events\Contracts\IEvent;
+use AlanGiacomin\LaravelBasePack\Events\Event;
 use AlanGiacomin\LaravelBasePack\Events\EventHandler;
 use AlanGiacomin\LaravelBasePack\Exceptions\BasePackException;
 use AlanGiacomin\LaravelBasePack\QueueObject\Contracts\IMessageBus;
 use AlanGiacomin\LaravelBasePack\QueueObject\Contracts\IQueueObject;
-use Alangiacomin\LaravelBasePack\Traits\HasBindingInjection;
 use Exception;
 use Illuminate\Contracts\Queue\ShouldQueue;
 use Illuminate\Foundation\Queue\Queueable;
@@ -18,7 +19,6 @@ use Throwable;
 
 abstract class QueueObjectHandler implements ShouldQueue
 {
-    use HasBindingInjection;
     use InteractsWithQueue;
     use Queueable;
 
@@ -32,11 +32,16 @@ abstract class QueueObjectHandler implements ShouldQueue
      */
     protected IQueueObject $queueObject;
 
-    public function __construct(
-        protected IMessageBus $messageBus
-    ) {
-        $this->injectProps();
-    }
+    /**
+     * Message bus where {@see Command} and {@see Event} are dispatched
+     */
+    protected IMessageBus $messageBus;
+
+    //    public function __construct()
+    //    {
+    //        // $this->injectProps();
+    //        $this->messageBus = app(IMessageBus::class);
+    //    }
 
     /**
      * Execute the command or event body
@@ -58,6 +63,8 @@ abstract class QueueObjectHandler implements ShouldQueue
      */
     final protected function handleObject(): void
     {
+        $this->messageBus = app(IMessageBus::class);
+
         $isJob = isset($this->job);
         $queue = $isJob ? $this->job->getQueue() : null;
         $isSync = !$isJob || $queue == 'sync';

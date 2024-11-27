@@ -1,8 +1,8 @@
 <?php
 
-namespace Alangiacomin\LaravelBasePack\Console\Commands;
+namespace AlanGiacomin\LaravelBasePack\Console\Commands;
 
-use Alangiacomin\LaravelBasePack\Console\Commands\Core\Command;
+use AlanGiacomin\LaravelBasePack\Console\Commands\Core\Command;
 use Illuminate\Contracts\Console\PromptsForMissingInput;
 use Illuminate\Support\Facades\File;
 

@@ -1,8 +1,8 @@
 <?php
 
-namespace Alangiacomin\LaravelBasePack\Console\Commands;
+namespace AlanGiacomin\LaravelBasePack\Console\Commands;
 
-use Alangiacomin\LaravelBasePack\Console\Commands\Core\Command;
+use AlanGiacomin\LaravelBasePack\Console\Commands\Core\Command;
 use Illuminate\Contracts\Console\PromptsForMissingInput;
 
 class CreateController extends Command implements PromptsForMissingInput
@@ -47,7 +47,7 @@ class CreateController extends Command implements PromptsForMissingInput
     private function createController(): void
     {
         $this->newLine();
-        $this->comment("Controller: {$this->controllerName}");
+        $this->comment("Controller: $this->controllerName");
 
         $filePath = app_path('Http\\Controllers\\Web'.$this->relNamespace.'/'.$this->controllerName.'Controller.php');
         $stubPath = __DIR__.'/stubs/Controllers/Stub.php.stub';

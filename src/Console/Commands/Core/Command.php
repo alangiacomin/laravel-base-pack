@@ -1,6 +1,6 @@
 <?php
 
-namespace Alangiacomin\LaravelBasePack\Console\Commands\Core;
+namespace AlanGiacomin\LaravelBasePack\Console\Commands\Core;
 
 use Illuminate\Console\Command as ConsoleCommand;
 use Throwable;

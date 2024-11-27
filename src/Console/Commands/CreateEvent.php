@@ -1,8 +1,8 @@
 <?php
 
-namespace Alangiacomin\LaravelBasePack\Console\Commands;
+namespace AlanGiacomin\LaravelBasePack\Console\Commands;
 
-use Alangiacomin\LaravelBasePack\Console\Commands\Core\Command;
+use AlanGiacomin\LaravelBasePack\Console\Commands\Core\Command;
 use Illuminate\Contracts\Console\PromptsForMissingInput;
 
 class CreateEvent extends Command implements PromptsForMissingInput
@@ -48,7 +48,7 @@ class CreateEvent extends Command implements PromptsForMissingInput
     private function createEvent(): void
     {
         $this->newLine();
-        $this->comment("Event: {$this->eventName}");
+        $this->comment("Event: $this->eventName");
 
         $filePath = app_path('Events'.$this->relNamespace.'/'.$this->eventName.'.php');
         $stubPath = __DIR__.'/stubs/Events/Stub.php.stub';

@@ -33,7 +33,7 @@
             "/src/Console/Commands/Publish/"
         ],
         "psr-4": {
-            "Alangiacomin\\LaravelBasePack\\": "src"
+            "AlanGiacomin\\LaravelBasePack\\": "src"
         }
     },
     "autoload-dev": {
