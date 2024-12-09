@@ -6,6 +6,7 @@ use AlanGiacomin\LaravelBasePack\Commands\Contracts\ICommand;
 use AlanGiacomin\LaravelBasePack\Events\Contracts\IEvent;
 use AlanGiacomin\LaravelBasePack\QueueObject\Contracts\IMessageBus;
 use Illuminate\Contracts\Bus\Dispatcher;
+use Illuminate\Support\Facades\Auth;
 
 class MessageBus implements IMessageBus
 {
@@ -25,6 +26,8 @@ class MessageBus implements IMessageBus
 
     public function publish(IEvent $event): mixed
     {
+        $event->userId = Auth::user()->id;
+
         return $this->bus->dispatchToQueue($event);
     }
 
