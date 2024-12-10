@@ -1,0 +1,7 @@
+<?php
+
+namespace App\Notifications{relNamespace};
+
+use AlanGiacomin\LaravelBasePack\Notifications\Notification;
+
+class {eventName}Notification extends Notification {}

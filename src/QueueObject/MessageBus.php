@@ -26,7 +26,9 @@ class MessageBus implements IMessageBus
 
     public function publish(IEvent $event): mixed
     {
-        $event->userId = Auth::user()->id;
+        if (Auth::check()) {
+            $event->userId = Auth::user()->id;
+        }
 
         return $this->bus->dispatchToQueue($event);
     }

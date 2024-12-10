@@ -5,6 +5,7 @@ namespace AlanGiacomin\LaravelBasePack;
 use AlanGiacomin\LaravelBasePack\Console\Commands\CreateCommand;
 use AlanGiacomin\LaravelBasePack\Console\Commands\CreateController;
 use AlanGiacomin\LaravelBasePack\Console\Commands\CreateEvent;
+use AlanGiacomin\LaravelBasePack\Console\Commands\CreateNotification;
 use AlanGiacomin\LaravelBasePack\Console\Commands\Docker;
 use AlanGiacomin\LaravelBasePack\Console\Commands\Install;
 use AlanGiacomin\LaravelBasePack\Core\ClassUtility;
@@ -56,6 +57,7 @@ class LaravelBasePackServiceProvider extends ServiceProvider
                     CreateController::class,
                     CreateCommand::class,
                     CreateEvent::class,
+                    CreateNotification::class,
                 ]
             );
         }
