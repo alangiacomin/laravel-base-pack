@@ -3,8 +3,10 @@
 namespace App\Http\Controllers\Web;
 
 use AlanGiacomin\LaravelBasePack\Controllers\Controller;
+use App\Commands\User\RemoveUserRole;
+use App\Events\OrderShipmentStatusUpdated;
 use App\Models\User\Contracts\IUserRepository;
-use App\Models\User\User;
+use App\Notifications\InvoicePaid;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
 use Spatie\RouteAttributes\Attributes\Get;
@@ -30,8 +32,8 @@ class UserController extends Controller
         $loggedUser = $request->user();
         if (!Auth::check()) {
             $credentials = [
-                'email' => $request->input('email'), //'test@example.com',
-                'password' => $request->input('password'), // 'password',
+                'email' => $request->input('email'),
+                'password' => $request->input('password'),
             ];
             $request->validate([
                 'email' => 'required|email',
@@ -64,16 +66,14 @@ class UserController extends Controller
     #[Get('all')]
     public function all()
     {
-        return User::all();
+        $users = $this->userRepository->getAll();
+
+        return $users;
     }
 
     #[Post('removeRole')]
     public function removeRole(Request $request)
     {
-        $user = $this->userRepository->findById($request->input('id'));
-
-        $user->removeRole($request->input('role'));
-
-        return $user;
+        return $this->executeCommand(new RemoveUserRole($request->input()));
     }
 }

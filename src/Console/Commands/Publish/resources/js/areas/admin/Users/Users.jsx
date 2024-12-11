@@ -13,14 +13,6 @@ const Users = () => {
             })
     }, []);
 
-    // const removeRole = useCallback((userId, role) => {
-    //     userRemoveRole({id: userId, role: role})
-    //         .then((resp) => {
-    //             setUsers(users.map(user => users.filter((u) => u.id !== userId).find(u => u.id === user.id) || resp));
-    //         });
-    //     return false;
-    // }, [users]);
-
     return (
         <ProtectedContent perm={PermissionEnum.ADMIN_USERS}>
             <h1>USERS</h1>

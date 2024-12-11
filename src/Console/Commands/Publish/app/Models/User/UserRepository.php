@@ -8,16 +8,16 @@ use Illuminate\Database\Eloquent\Collection;
 
 final class UserRepository extends Repository implements IUserRepository
 {
-    public function findByEmail(string $email): ?User
+    public function findById(int $id): ?User
     {
-        $user = User::where('email', $email)->first();
+        $user = User::find($id);
 
         return $user ?? null;
     }
 
-    public function findById(int $id): ?User
+    public function findByEmail(string $email): ?User
     {
-        $user = User::find($id);
+        $user = User::where('email', $email)->first();
 
         return $user ?? null;
     }

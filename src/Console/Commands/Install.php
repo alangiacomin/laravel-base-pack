@@ -30,13 +30,23 @@ class Install extends Command implements PromptsForMissingInput
         $this->call('migrate:fresh');
 
         $this->permissions();
-        $this->refactorBackend();
+        $this->backend();
         $this->refactorFrontend();
 
+        $this->deleteFile(app_path('Http/Controllers/Controller.php'));
+        $this->deleteFile(app_path('Models/User.php'));
+        $this->deleteFile(base_path('routes/web.php'));
+        $this->deleteFile(database_path('seeders/DatabaseSeeder.php'));
+        $this->deleteDir(database_path('factories'), true);
         $this->call('vendor:publish', ['--tag' => 'basepack']);
+
         $this->call('migrate');
         $this->call('db:seed');
 
+        $this->call('reverb:install', ['--no-interaction' => true]);
+        $this->call('install:broadcasting', ['--without-reverb' => true, '--without-node' => true]);
+
+        $this->environment();
         $this->finish();
 
         $this->newLine();
@@ -53,16 +63,10 @@ class Install extends Command implements PromptsForMissingInput
         ]);
     }
 
-    private function refactorBackend(): void
+    private function backend(): void
     {
         $this->newLine();
         $this->comment('refactorOriginals');
-
-        $this->deleteFile(app_path('Http/Controllers/Controller.php'));
-        $this->deleteFile(app_path('Models/User.php'));
-        $this->deleteFile(base_path('routes/web.php'));
-        $this->deleteFile(database_path('seeders/DatabaseSeeder.php'));
-        $this->deleteDir(database_path('factories'), true);
 
         $this->replaceInFile(
             base_path('composer.json'),
@@ -136,7 +140,9 @@ class Install extends Command implements PromptsForMissingInput
             ' @vitejs/plugin-react@4.3.3'.
             ' bootstrap@5.3.3'.
             ' classnames@2.5.1'.
+            ' laravel-echo@1.17.1'.
             ' prop-types@15.8.1'.
+            ' pusher-js@8.3.0'.
             ' react@18.3.1'.
             ' react-dom@18.3.1'.
             ' react-router-dom@6.28.0'
@@ -167,5 +173,27 @@ class Install extends Command implements PromptsForMissingInput
         $this->deleteFile(base_path('postcss.config.js'));
         $this->deleteFile(base_path('tailwind.config.js'));
         $this->deleteFile(base_path('vite.config.js'));
+    }
+
+    private function environment(): void
+    {
+        $reverbPort = rand(8100, 8200);
+
+        $this->replaceInFile(
+            base_path('.env'),
+            [
+                'APP_URL=http://localhost',
+                'VITE_APP_NAME="${APP_NAME}"',
+                'REVERB_PORT=8080',
+            ],
+            [
+                'APP_URL=http://localhost:8000',
+                'VITE_APP_NAME="${APP_NAME}"'
+                .PHP_EOL.'VITE_APP_URL="${APP_URL}"',
+                'REVERB_PORT='.$reverbPort
+                .PHP_EOL.'REVERB_SERVER_HOST=0.0.0.0'
+                .PHP_EOL.'REVERB_SERVER_PORT='.$reverbPort,
+            ]
+        );
     }
 }

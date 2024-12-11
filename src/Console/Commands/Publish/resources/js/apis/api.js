@@ -1,8 +1,9 @@
 import axios from 'axios';
+import env from "../env";
 
 const customAxios = axios.create({
-    baseURL: 'http://localhost:8000',
-    headers:{
+    baseURL: env.APP_URL,
+    headers: {
         "Content-Type": "application/json",
         "accept": 'application/json',
     }

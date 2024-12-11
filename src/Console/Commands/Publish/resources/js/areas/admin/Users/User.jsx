@@ -8,9 +8,11 @@ const User = ({user}) => {
     const {user: currentUser} = useUser();
 
     const removeRole = useCallback((role) => {
-        userRemoveRole({id: user.id, role: role})
-            .then((data) => {
-                setRoles(data.assigned_roles);
+        userRemoveRole({modelId: user.id, role: role})
+            .then((resp) => {
+                if (resp.success) {
+                    setRoles(resp.result.assigned_roles);
+                }
             });
         return false;
     }, [user.id]);

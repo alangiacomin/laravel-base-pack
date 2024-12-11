@@ -41,7 +41,6 @@ class UsersSeeder extends Seeder
                 'email' => 'test2@example.com',
                 'password' => Hash::make('rew453!rew453!'),
             ]);
-            // $user->assignRole($role3);
         }
 
         $users = (new UserFactory(10))->create();

@@ -39,17 +39,6 @@ abstract class Command extends ConsoleCommand
         $this->newline();
     }
 
-    protected function printResult(string $successMessage, array $errors): void
-    {
-        if (empty($errors)) {
-            $this->comment($successMessage);
-        } else {
-            foreach ($errors as $error) {
-                $this->error($error);
-            }
-        }
-    }
-
     /**
      * Delete a file
      *
@@ -87,34 +76,6 @@ abstract class Command extends ConsoleCommand
         rmdir($dir);
     }
 
-    protected function copyFile(string $src, string $dest, array $search = [], array $replace = []): void
-    {
-        if (!file_exists($src) || file_exists($dest)) {
-            return;
-        }
-
-        $dirName = pathinfo($dest, PATHINFO_DIRNAME);
-        $this->mkdirIfMissing($dirName);
-
-        copy($src, $dest);
-
-        $this->replaceInFile($dest, $search, $replace);
-    }
-
-    protected function moveFile(string $src, string $dest, array $search = [], array $replace = []): void
-    {
-        if (!file_exists($src) || file_exists($dest)) {
-            return;
-        }
-
-        $dirName = pathinfo($dest, PATHINFO_DIRNAME);
-        $this->mkdirIfMissing($dirName);
-
-        rename($src, $dest);
-
-        $this->replaceInFile($dest, $search, $replace);
-    }
-
     protected function replaceInFile(string $src, array $search = [], array $replace = []): void
     {
         file_put_contents($src, str_replace($search, $replace, file_get_contents($src)));
@@ -125,11 +86,6 @@ abstract class Command extends ConsoleCommand
         if (!is_dir($dir)) {
             mkdir($dir, recursive: true);
         }
-    }
-
-    protected function publishProvider(string $provider): void
-    {
-        $this->call('vendor:publish', ['--provider' => $provider]);
     }
 
     protected function finish(): void

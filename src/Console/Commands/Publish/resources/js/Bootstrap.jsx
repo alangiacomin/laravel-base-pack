@@ -2,14 +2,16 @@ import {useEffect, useState} from "react";
 import Router from "./Router";
 import AuthContext from "./AuthContext";
 import {userLoad} from "./apis/apiUser";
+import useEcho from "./hooks/useEcho";
 
 const Bootstrap = () => {
+    useEcho();
     const [user, setUser] = useState(null);
     const [ready, setReady] = useState(false);
 
     useEffect(() => {
         userLoad()
-            .then((data)=>{
+            .then((data) => {
                 setUser(data);
                 setReady(true);
             });
@@ -17,7 +19,7 @@ const Bootstrap = () => {
 
     return ready && (
         <AuthContext.Provider value={{user, setUser}}>
-            <Router />
+            <Router/>
         </AuthContext.Provider>
     );
 }

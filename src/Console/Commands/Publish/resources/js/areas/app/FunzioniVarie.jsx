@@ -2,12 +2,21 @@ import useUser from "../../hooks/useUser";
 import {useCallback, useMemo} from "react";
 import {useNavigate} from "react-router-dom";
 import {userLogin, userLogout} from "../../apis/apiUser";
+import api from "../../apis/api";
+import useEvent from "../../hooks/useEvent";
 
 const FunzioniVarie = () => {
     const {user, setUser} = useUser();
     const navigate = useNavigate();
     const title = "questa è la pagina standard";
     const isLogged = useMemo(() => user && user.id, [user]);
+
+    useEvent('AzioneFatta', (e) => {
+        console.log(">> event", e);
+    });
+    useEvent('Nested\\SecondaAzione', (e) => {
+        console.log(">> event", e);
+    });
 
     const loginUser = useCallback((isAdmin = false) => {
         return userLogin({
@@ -25,6 +34,10 @@ const FunzioniVarie = () => {
                 setUser(data);
             });
     }, [setUser]);
+
+    const eseguiAzione = useCallback(() => {
+        api.get("azione/esegui");
+    }, []);
 
     return (
         <>
@@ -58,9 +71,7 @@ const FunzioniVarie = () => {
             <button className="btn btn-info" onClick={() => navigate('/admin')}>Admin</button>
             <button className="btn btn-info" onClick={() => navigate('/admin/prima')}>Admin/Prima</button>
             <hr/>
-            {/*{user && (<pre>{Object.keys(user).map((key) => {*/}
-            {/*    return (<div key={key}><b>{key}</b>: {user[key]}</div>);*/}
-            {/*})}</pre>)}*/}
+            <button className="btn btn-primary" onClick={() => eseguiAzione()}>Esegui azione</button>
         </>
     );
 }
