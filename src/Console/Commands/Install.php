@@ -68,6 +68,18 @@ class Install extends Command implements PromptsForMissingInput
         $this->newLine();
         $this->comment('refactorOriginals');
 
+        $process = Process::fromShellCommandline('composer remove'.
+            ' phpunit/phpunit'
+        );
+        $process->run();
+        echo $process->getOutput();
+
+        $process = Process::fromShellCommandline('composer install --dev'.
+            ' pestphp/pest:3.7.0'
+        );
+        $process->run();
+        echo $process->getOutput();
+
         $this->replaceInFile(
             base_path('composer.json'),
             ['^'],
