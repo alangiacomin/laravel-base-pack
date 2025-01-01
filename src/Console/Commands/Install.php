@@ -43,6 +43,12 @@ class Install extends Command implements PromptsForMissingInput
         $this->call('migrate');
         $this->call('db:seed');
 
+        $this->call('telescope:install');
+
+        $this->call('vendor:publish', [
+            '--provider' => 'Laravel\Pulse\PulseServiceProvider',
+        ]);
+
         $this->call('reverb:install', ['--no-interaction' => true]);
         $this->call('install:broadcasting', ['--without-reverb' => true, '--without-node' => true]);
 
@@ -76,6 +82,12 @@ class Install extends Command implements PromptsForMissingInput
 
         $process = Process::fromShellCommandline('composer install --dev'.
             ' pestphp/pest:3.7.0'
+        );
+        $process->run();
+        echo $process->getOutput();
+
+        $process = Process::fromShellCommandline('composer install'.
+            ' laravel/pulse:1.3.2'
         );
         $process->run();
         echo $process->getOutput();
