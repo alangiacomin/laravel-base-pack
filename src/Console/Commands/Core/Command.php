@@ -3,6 +3,8 @@
 namespace AlanGiacomin\LaravelBasePack\Console\Commands\Core;
 
 use Illuminate\Console\Command as ConsoleCommand;
+use Illuminate\Support\Arr;
+use Illuminate\Support\Str;
 use Throwable;
 
 abstract class Command extends ConsoleCommand
@@ -78,7 +80,8 @@ abstract class Command extends ConsoleCommand
 
     protected function replaceInFile(string $src, array $search = [], array $replace = []): void
     {
-        file_put_contents($src, str_replace($search, $replace, file_get_contents($src)));
+        $replaceMethod = Str::startsWith(Arr::first($search), '/') ? 'preg_replace' : 'str_replace';
+        file_put_contents($src, $replaceMethod($search, $replace, file_get_contents($src)));
     }
 
     protected function mkdirIfMissing(string $dir): void

@@ -94,14 +94,14 @@ class Install extends Command implements PromptsForMissingInput
 
         $this->replaceInFile(
             base_path('composer.json'),
-            ['^'],
+            ['/\^/'],
             ['']
         );
 
         $this->replaceInFile(
             base_path('composer.json'),
-            ['\"php artisan pail --timeout=0\"'],
-            [''],
+            ['/"npx concurrently .*"(,?)([\r\n]*)/'],
+            ['"npx concurrently --raw \"php artisan serve\" \"php artisan queue:listen\" \"php artisan queue:listen --name=notifications --queue=notifications\" \"php artisan pulse:check\" \"npm run dev\" \"php artisan reverb:start --debug\""${1}${2}'],
         );
 
         $this->replaceInFile(
@@ -142,10 +142,11 @@ class Install extends Command implements PromptsForMissingInput
 
     private function refactorFrontend(): void
     {
+        $npmCommonOptions = '--prefer-offline --no-audit';
         $this->comment('npm install');
         $this->newLine();
 
-        $process = Process::fromShellCommandline('npm install --save-dev'.
+        $process = Process::fromShellCommandline("npm install --save-dev {$npmCommonOptions}".
             ' @eslint/compat@1.2.2'.
             ' @eslint/eslintrc@3.1.0'.
             ' @eslint/js@9.13.0'.
@@ -159,7 +160,7 @@ class Install extends Command implements PromptsForMissingInput
         $process->run();
         echo $process->getOutput();
 
-        $process = Process::fromShellCommandline('npm install --save'.
+        $process = Process::fromShellCommandline("npm install --save {$npmCommonOptions}".
             ' @popperjs/core@2.11.8'.
             ' @vitejs/plugin-react@4.3.3'.
             ' bootstrap@5.3.3'.
@@ -174,7 +175,7 @@ class Install extends Command implements PromptsForMissingInput
         $process->run();
         echo $process->getOutput();
 
-        $process = Process::fromShellCommandline('npm uninstall'.
+        $process = Process::fromShellCommandline("npm uninstall {$npmCommonOptions}".
             ' autoprefixer'.
             ' postcss'.
             ' tailwindcss'
@@ -182,11 +183,11 @@ class Install extends Command implements PromptsForMissingInput
         $process->run();
         echo $process->getOutput();
 
-        // $this->replaceInFile(
-        //     base_path('package.json'),
-        //     ['^'],
-        //     ['']
-        // );
+        $this->replaceInFile(
+            base_path('package.json'),
+            ['/\^/'],
+            ['']
+        );
 
         $this->comment('view');
         $this->newLine();
