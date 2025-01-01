@@ -170,11 +170,11 @@ class Install extends Command implements PromptsForMissingInput
         $process->run();
         echo $process->getOutput();
 
-        $this->replaceInFile(
-            base_path('package.json'),
-            ['^'],
-            ['']
-        );
+        // $this->replaceInFile(
+        //     base_path('package.json'),
+        //     ['^'],
+        //     ['']
+        // );
 
         $this->comment('view');
         $this->newLine();

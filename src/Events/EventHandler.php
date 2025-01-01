@@ -67,17 +67,18 @@ abstract class EventHandler extends QueueObjectHandler
             $rel = Str::remove("App\Events", ClassUtility::relativeNamespace($this->event->fullName()));
             $notificationName = "App\\Notifications$rel\\{$fwe}Notification";
 
-            if (!class_exists($notificationName)) {
-                if (empty($rel)) {
-                    Artisan::call('basepack:notification', ['name' => "$fwe"]);
-                } else {
-                    Artisan::call('basepack:notification', ['name' => "$rel\\$fwe"]);
-                }
-                spl_autoload($notificationName);
-            }
+            //            if (!class_exists($notificationName)) {
+            //                if (empty($rel)) {
+            //                    Artisan::call('basepack:notification', ['name' => "$fwe"]);
+            //                } else {
+            //                    Artisan::call('basepack:notification', ['name' => "$rel\\$fwe"]);
+            //                }
+            //                spl_autoload($notificationName);
+            //            }
 
             /** @noinspection PhpUndefinedMethodInspection */
-            Auth::user()->notify(new $notificationName($this->event));
+            // Auth::user()->notify(new $notificationName($this->event));
+            Auth::user()->notify($this->event);
         }
     }
 }

@@ -5,13 +5,18 @@ namespace AlanGiacomin\LaravelBasePack\QueueObject;
 use AlanGiacomin\LaravelBasePack\Exceptions\BasePackException;
 use AlanGiacomin\LaravelBasePack\QueueObject\Contracts\IQueueObject;
 use Alangiacomin\PhpUtils\Guid;
+use Illuminate\Bus\Queueable;
+use Illuminate\Notifications\Notification;
+use Illuminate\Support\Arr;
 
-abstract class QueueObject implements IQueueObject
+abstract class QueueObject extends Notification implements IQueueObject
 {
+    use Queueable;
+
     /**
      * Queue object id
      */
-    public string $id = '';
+    //public string $id = '';
 
     /**
      * Object constructor setting {@see id}
@@ -19,7 +24,7 @@ abstract class QueueObject implements IQueueObject
     public function __construct(array|object|null $props = null)
     {
         if (isset($props)) {
-            $props = $this->toArray($props);
+            $props = $this->toArray2($props);
             foreach ($props as $key => $value) {
                 $this->$key = $value;
             }
@@ -41,7 +46,8 @@ abstract class QueueObject implements IQueueObject
             'failOnTimeout',
             'timeout',
             'middleware',
-            'queue',
+            // 'queue',
+            // 'delay',
         ];
         if (in_array($name, $laravelProps)) {
             return;
@@ -60,7 +66,7 @@ abstract class QueueObject implements IQueueObject
         throw new BasePackException("Property '$name' not writeable.");
     }
 
-    public function toArray(object|array $obj): array
+    public function toArray2(object|array $obj): array
     {
         if (is_object($obj)) {
             return get_object_vars($obj);
@@ -84,7 +90,20 @@ abstract class QueueObject implements IQueueObject
 
     final public function props(): array
     {
-        return get_object_vars($this);
+        $vars = get_object_vars($this);
+
+        return Arr::except($vars, [
+            'afterCommit',
+            'chainCatchCallbacks',
+            'chainConnection',
+            'chainQueue',
+            'chained',
+            'delay',
+            'locale',
+            'middleware',
+            'queue',
+            'connection',
+        ]);
     }
 
     final public function fullName(): string
