@@ -15,7 +15,7 @@ This will create a new command class and its corresponding handler within the `A
 If the `{name}` argument includes subpaths (e.g. `User/CreateUser`), these will be reflected in the namespace structure:
 
 ```bash
-php artisan basepack:command User/CreateUser
+php artisan basepack:command User\CreateUser
 ```
 
 This will generate:
