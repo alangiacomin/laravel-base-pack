@@ -28,7 +28,7 @@
     },
     "autoload": {
         "exclude-from-classmap": [
-            "/src/Console/Commands/Publish/"
+            "src/Console/Commands/Publish/"
         ],
         "psr-4": {
             "AlanGiacomin\\LaravelBasePack\\": "src"
