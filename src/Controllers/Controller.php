@@ -28,7 +28,7 @@ abstract class Controller extends BaseController
      *
      * @noinspection PhpUnused
      */
-    final public function executeCommand(ICommand $command): JsonResponse
+    protected function executeCommand(ICommand $command): JsonResponse
     {
         $result = app(IMessageBus::class)->execute($command);
 
