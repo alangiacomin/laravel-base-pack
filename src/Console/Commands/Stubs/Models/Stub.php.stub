@@ -4,9 +4,10 @@ namespace App\Models{relNamespace};
 
 use AlanGiacomin\LaravelBasePack\Models\Contracts\IModel;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
+use Illuminate\Database\Eloquent\Model;
 use Illuminate\Notifications\Notifiable;
 
-class {modelName} implements IModel
+class {modelName} extends Model implements IModel
 {
     use HasFactory, Notifiable;
 
