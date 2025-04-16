@@ -4,6 +4,8 @@ plugins:
 nav:
     -   text: "Home"
         url: "index.html"
+    -   text: "Models"
+        url: "models.html"
     -   text: "Controllers"
         url: "controllers.html"
     -   text: "Commands"

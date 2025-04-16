@@ -20,8 +20,8 @@ jobs:
 
             -   name: Copy README.md to docs/index.md
                 run: |
-                    cp README.md docs/index.md
-                    echo "README.md copiato con successo in docs/index.md"
+                    cp docs/index.md README.md
+                    echo "docs/index.md copiato con successo in README.md"
 
             -   name: Commit changes
                 uses: stefanzweifel/git-auto-commit-action@e348103e9026cc0eee72ae06630dbe30c8bf7a79 # 5.1.0

@@ -31,6 +31,25 @@ Laravel project.
 This package is organized around a few core components that help structure application logic in a modular and
 maintainable way.
 
+* **Models, Factories, and Repositories**
+
+  Models, factories, and repositories work together to provide a consistent and efficient structure for handling data
+  management within your application. Models define the structure of your data, factories simplify the creation of test
+  or seed data, and repositories organize the access and manipulation of this data through a clear and testable
+  interface.
+
+  → [Learn more](https://alangiacomin.github.io/laravel-base-pack/models.html)
+
+
+* **Controllers**
+
+  Controllers are responsible for handling incoming HTTP requests, processing them (possibly using services or
+  repositories), and returning appropriate responses. They serve as the entry point for web requests and help organize
+  the application's logic.
+
+  → [Learn more](https://alangiacomin.github.io/laravel-base-pack/controllers.html)
+
+
 * **Commands**
 
   Custom Artisan commands that allow you to extend the CLI with domain-specific tasks. Useful for background jobs, setup
@@ -46,13 +65,6 @@ maintainable way.
 
   → [Learn more](https://alangiacomin.github.io/laravel-base-pack/events.html)
 
-
-* **Repositories**
-
-  A pattern to abstract and encapsulate data access logic, improving testability and separation of concerns.
-
-  → _Coming soon_
-
 ## 🧪 Testing & Maintainability
 
 The separation encouraged by this package helps writing unit tests focused on commands and domain logic, keeping the
@@ -60,11 +72,12 @@ codebase maintainable and clean.
 
 ## 📁 Examples
 
-The package includes basic examples of:
+The package provides basic examples of:
 
-- Command + Handler
-- Event + Listener
-- Repository + Interface
+- Models, Factories, and Repositories
+- Controllers
+- Commands with Handlers
+- Events with Listeners
 
 You can use them as a starting point for defining your own components.
 
