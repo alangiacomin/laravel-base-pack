@@ -124,6 +124,11 @@ class ClassUtilityTest extends TestCase
     {
         $class = new class() extends Repository
         {
+            public function create(array $props): IModel
+            {
+                return new class() implements IModel {};
+            }
+
             public function findById(int $id): ?IModel
             {
                 return null;
