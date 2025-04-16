@@ -56,3 +56,33 @@ class EventHappenedHandler extends EventHandler
     }
 }
 ```
+
+## Dependency Injection for Properties
+
+You can inject dependencies into your command handler classes by defining a constructor that accepts public-typed
+properties. These will automatically be available within the class using
+`$this->propertyName`.
+
+For example:
+
+```php
+namespace App\Commands\User;
+
+use AlanGiacomin\LaravelBasePack\Controllers\Controller;
+use App\Models\User\UserRepository;
+
+class CreateUserHandler extends Controller
+{
+    public function __construct(
+        public UserRepository $userRepository
+    ) {}
+
+    public function handle(CreateUser $command)
+    {
+        $this->userRepository->create($command->data);
+    }
+}
+```
+
+In this example, the `UserRepository` is injected into the `CreateUserHandler` class, and it can be accessed directly
+using `$this->userRepository`.
