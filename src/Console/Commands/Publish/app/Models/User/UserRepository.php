@@ -8,6 +8,11 @@ use Illuminate\Database\Eloquent\Collection;
 
 final class UserRepository extends Repository implements IUserRepository
 {
+    public function create(array $props): User
+    {
+        return User::create($props);
+    }
+
     public function findById(int $id): ?User
     {
         $user = User::find($id);

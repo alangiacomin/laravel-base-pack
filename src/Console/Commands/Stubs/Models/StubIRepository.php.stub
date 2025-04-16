@@ -1,0 +1,12 @@
+<?php
+
+namespace App\Models{relNamespace}\Contracts;
+
+use AlanGiacomin\LaravelBasePack\Repositories\IRepository;
+use App\Models{relNamespace}\{modelName};
+use Illuminate\Database\Eloquent\Collection;
+
+interface I{modelName}Repository extends IRepository
+{
+    public function getAll(): Collection;
+}

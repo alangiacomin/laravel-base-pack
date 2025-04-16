@@ -1,0 +1,25 @@
+<?php
+
+namespace App\Models{relNamespace};
+
+use AlanGiacomin\LaravelBasePack\Repositories\Repository;
+use App\Models{relNamespace}\Contracts\I{modelName}Repository;
+use Illuminate\Database\Eloquent\Collection;
+
+final class {modelName}Repository extends Repository implements I{modelName}Repository
+{
+    public function create(array $props): {modelName}
+    {
+        return {modelName}::create($props);
+    }
+
+    public function findById(int $id): ?{modelName}
+    {
+        return  {modelName}::find($id) ?? null;
+    }
+
+    public function getAll(): Collection
+    {
+        return {modelName}::all();
+    }
+}
