@@ -19,9 +19,9 @@ abstract class Command extends QueueObject implements ICommand
      *
      * @return void
      */
-    public function __construct()
+    public function __construct(array|object|null $props = null)
     {
-        parent::__construct();
+        parent::__construct($props);
         $this->result = new CommandResult();
     }
 }
